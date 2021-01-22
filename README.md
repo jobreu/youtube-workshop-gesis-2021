@@ -19,6 +19,6 @@ YouTube is the largest and most popular video platform on the internet. The prod
 
 ![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/blob/main/Images/MostFrequentWords.png)
 
-![alt text](hhttps://github.com/jobreu/youtube-workshop-gesis-2021/blob/main/Images/WordCloud.png)
+![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/blob/main/Images/WordCloud.png)
 
 ![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/blob/main/Images/Top10Emojis.png)
