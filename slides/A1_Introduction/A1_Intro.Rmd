@@ -60,14 +60,12 @@ After this course you should be able to...
 
 - M.Sc. in Social Psychology, University of Groningen (NL)
 
-- Scientific Adviser in GESIS presidentidal staff / CSS department
+- Scientific Advisor in GESIS presidentidal staff / CSS department
   - Main area: developments of GESIS in the area of digital behavioral data
 
-- Research interests
-  - Using digital data for quantifying human behavior
-  - Text mining
-  - Interpersonal relationships
-  - Social Network Analysis / Simulation
+- PhD Student at University of Ulm / Stanford Social Media Lab
+  - Field: Social Psychology
+  - Topic: Quantifying interpersonal relationships with chat log data (WhatsApp)
 
 [julian.kohne@gesis.org](mailto:julian.kohne@gesis.org)
 

@@ -10,3 +10,15 @@ Please link to the [workshop GitHub repository](https://github.com/jobreu/youtub
 
 # Workshop description
 YouTube is the largest and most popular video platform on the internet. The producers and users of YouTube content generate huge amounts of data. These data are also of interest to researchers (in the social sciences as well as other disciplines) for studying different aspects of online media use and communication. Accessing and working with these data, however, can be challenging. In this workshop, we will first discuss the potential of YouTube data for research in the social sciences, and then introduce participants to different tools and methods for sampling and analyzing data from YouTube. We will then demonstrate and compare several tools for collecting YouTube data. Our focus for the main part of the workshop will be on using the [tuber package](https://soodoku.github.io/tuber/) for R to collect data via the [YouTube API](https://developers.google.com/youtube) and wrangling and analyzing the data in R (using various packages). Regarding the type of data, we will focus on user comments but also will also (briefly) look into other YouTube data, such as video statistics and subtitles. For the comments, we will show how to clean/process them in R, how to deal with emojis, and how to do some basic forms of automated text analysis (e.g., word frequencies, sentiment analysis). While we believe that YouTube data has great potential for research in the social sciences (and other disciplines), we will also discuss the unique challenges and limitations of using this data.
+
+---
+
+# Examples
+
+![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/Images/CommentsOvertime.png)
+
+![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/Images/MostFrequentWords.png)
+
+![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/Images/WordCloud.png)
+
+![alt text](https://github.com/jobreu/youtube-workshop-gesis-2021/Images/Top10Emojis.png)
