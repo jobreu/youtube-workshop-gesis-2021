@@ -29,6 +29,19 @@ class: center, middle, inverse, title-slide
 
 layout: true
 
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
 
 
 &lt;div class="my-footer"&gt;
@@ -118,7 +131,7 @@ We will explain these steps in detail on the following slides.
 ---
 # Setting up Credentials
 
-- Select "YouTube Data API v2", "Other UI" and "User data" in the respective field
+- Select "YouTube Data API v3", "Other UI" and "User data" in the respective field
 and click on "What credentials do I need?" on the bottom of the screen
 
 ![plot](Images/10.png)
@@ -192,9 +205,7 @@ pages.
 ---
 # Setting up Credentials (2)
 
-- Congratulations! You now have your own Client ID and secret. Do not share these with anybody else, as they give
-full user rights for your new Youtube account to anybody who has them. You can copy and paste them into R before closing the
-window by clicking on "OK". You can access them again anytime by clicking on the name you set for these credentials.
+- Congratulations! You now have your own Client ID and secret! Next, copy both as a string into an R-script.
 
 ![plot](Images/21.png)
 
@@ -248,7 +259,9 @@ yt_oauth(ID,secret)
 
 - confirm your choices once more by clicking on "Allow"
 
+.center.middle[
 ![plot](Images/25.png)
+]
 
 ---
 # Grant yourself access
@@ -300,7 +313,7 @@ $commentCount
 - Have one account and project ready for the workshop for which you know that it works
 - Do not use your API access too excessively before the workshop to avoid any risk of it being suspended
   
-- Never share your OAuth login credentials! This can easily happen by accident when
+- Never share your OAuth login credentials! This can easily happen by accident when:
   - saving code in a GitHub Repo
   - sending scripts to colleagues
   - troubleshooting someone elses code
