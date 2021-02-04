@@ -20,11 +20,17 @@ layout: true
 if (!require(easypackages)) install.packages("easypackages")
 library(easypackages)
 
-packages("knitr", "rmarkdown", "gadenbuie/xaringanExtra", "gadenbuie/tweetrmd", "hadley/emo", prompt = F)
+packages("knitr",
+         "rmarkdown",
+         "gadenbuie/xaringanExtra",
+         "gadenbuie/tweetrmd",
+         "hadley/emo",
+         prompt = F)
 
 options(htmltools.dir.version = FALSE)
 
-opts_chunk$set(echo = FALSE, fig.align = "center")
+opts_chunk$set(echo = FALSE,
+               fig.align = "center")
 
 xaringanExtra::use_xaringan_extra(c("tile_view", "clipboard"))
 xaringanExtra::use_extra_styles(hover_code_line = TRUE,

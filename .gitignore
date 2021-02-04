@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # R project files
 *.Rproj
+
+# data folder
+data/*

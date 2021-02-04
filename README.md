@@ -1,5 +1,5 @@
 # Workshop "Automatic Sampling and Analysis of YouTube Comments", GESIS 2021
-Materials for the 2020 [*GESIS*](https://www.gesis.org/en/home/) workshop ["Automatic Sampling and Analysis of YouTube Comments"](https://training.gesis.org/?site=pDetails&child=full&pID=0x12941263AE4D46F5BFB1250DA9ECD139)
+Materials for the 2021 [*GESIS*](https://www.gesis.org/en/home/) workshop ["Automatic Sampling and Analysis of YouTube Comments"](https://training.gesis.org/?site=pDetails&child=full&pID=0x12941263AE4D46F5BFB1250DA9ECD139)
 
 [Johannes Breuer](https://www.johannesbreuer.com/) ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09)); [Julian Kohne](https://www.gesis.org/en/institute/staff/person/Julian.Kohne) ([Julian.Kohne@gesis.org](mailto:Julian.Kohne@gesis.org), [\@JuuuuKoooo](https://twitter.com/JuuuuKoooo)); [M. Rohangis Mohseni](https://www.tu-ilmenau.de/en/media-psychology-and-media-design/team/dr-rohangis-mohseni/) ([Rohangis.Mohseni@tu-ilmenau.de](mailto:Rohangis.Mohseni@tu-ilmenau.de), [\@romohseni](https://twitter.com/romohseni))
 
