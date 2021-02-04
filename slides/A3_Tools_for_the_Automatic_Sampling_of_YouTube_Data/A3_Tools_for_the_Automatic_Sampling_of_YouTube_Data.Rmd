@@ -1,0 +1,85 @@
+--- 
+title: "Automatic Sampling and Analysis of YouTube Data"
+subtitle: "Tools for the Automatic Sampling of YouTube Data"
+author: "Julian Kohne<br />Johannes Breuer<br />M. Rohangis Mohseni"
+date: "2020-02-24"
+location: "GESIS, Cologne, Germany"
+output:
+  bookdown::pdf_document2
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../workshop.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+layout: true
+
+```{r setup, include = F}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
+
+packages("knitr", "rmarkdown", "tidyverse", "kableExtra", "hadley/emo", prompt = F)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
+</div>
+
+<style type="text/css">
+
+pre {
+  font-size: 10px
+}
+</style>
+
+---
+
+# Tools for the Automatic Sampling of YouTube Data
+
+- [Webometric Analyst](http://lexiurl.wlv.ac.uk/)
+
+- [YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
+
+- [tuber](https://cran.r-project.org/web/packages/tuber/)
+
+We wrote a [short tutorial](https://github.com/gesiscss/YouTubeComments/blob/master/How%20to%20automatically%20sample%20comments%20from%20YouTube_v3.pdf) on how to use the tools. **NB**: The `tuber` script mentioned in that tutorial is a bit outdated. We will explore how to work with `tuber` in more detail in this workshop.
+
+---
+
+# Pros and Cons
+
+```{r tools table 2, echo = F}
+tools_pc <- data.frame(
+  "Method" = c("Need API Key?", "Disadvantages", "Ease of Use", "License", "Example: Dayum Video (22-02-2019, 2pm)"),
+  "Manual Coding" = c("No", "Time-consuming", "High", "n/a", "47,163"),
+  "Webometric Analyst" = c("Yes", "Only first 5 follow-up comments, no error feedback, undetectable time-outs", "Low", "Free for n/c", "44,828"),
+  "YouTube Data Tools" = c("No", "Lacking flexibility, fewer infos", "High", "Open Source", "47,153"),
+  "tuber" = c("Yes", "Only first 5 follow-up comments due to bug", "Low", "Open Source", "44,810")
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
+knitr::kable(
+  tools_pc
+  , format = "html"
+  , align = "cc"
+  , escape = FALSE
+)
+```
+
+[Dayum Video](https://www.youtube.com/watch?v=DcJFdCmN98s) / [tuber bug](https://github.com/soodoku/tuber/issues/52)
+
+---
+
+class: center, middle
+
+# Any questions?
