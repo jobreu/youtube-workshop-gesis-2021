@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Julian Kohne Johannes Breuer M. Rohangis Mohseni" />
     <meta name="date" content="2021-02-25" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="../workshop.css" type="text/css" />
@@ -41,7 +42,7 @@ pre {
 ---
 
 
-# Retrieving Video Subtitles (1)
+# Retrieving Video Subtitles with `tuber`
 
 - Instead of transscribing a video, you can retrieve its subtitles.
 
@@ -49,11 +50,17 @@ pre {
 
 ---
 
-# Retrieving Video Subtitles (2)
+# Retrieving Video Subtitles with `tuber`
 
 - Retrieve a list of subtitles with
 
-  - `tuber::list_caption_tracks` (costs around 52 quota)
+  - `tuber::list_caption_tracks`
+  
+- Costs around 52 quota
+
+---
+
+# Types of YouTube Subtitles
 
 - Videos with automatically created subtitle (&lt;i&gt;ASR&lt;/i&gt;)
 
@@ -71,11 +78,13 @@ pre {
 
   - Can be downloaded, but subtitle for analysis must be selected
 
-- Videos with [deactivated 3rd party contribution](https://stackoverflow.com/questions/30653865/downloading-captions-always-returns-a-403) return Error 403
+- Videos with [deactivated 3rd party contribution](https://stackoverflow.com/questions/30653865/downloading-captions-always-returns-a-403) 
+
+  - Return Error 403; nothing can be downloaded
   
 ---
 
-# Retrieving Video Subtitles (3)
+# Retrieving Video Subtitles with `tuber`
 
 - First, we need to get the list of subtitles for a video
 
@@ -112,6 +121,24 @@ pre {
   `subtext &lt;- get_raw_text(Subs)`
 
 - Now the text is ready for text analysis
+
+---
+
+# Retrieving Video Subtitles with `youtubecaption`
+
+- Alternatively, you can retrieve captions with the package youtubecaption.
+
+- Pros:
+
+  - No credentials necessary, therefore no quota reduction
+  
+  - Subtitles come as matrix of text and timestamps, so no conversion is needed
+  
+- Cons:
+
+  - If there is more than one subtitle version per language, there is no way to select a specific one
+  
+  - You need to install the Python package "Anaconda"
 
 ---
 
