@@ -37,7 +37,7 @@ layout: true
 
 &lt;div class="my-footer"&gt;
   &lt;div style="float: left;"&gt;&lt;span&gt;Julian Kohne, Johannes Breuer, M. Rohangis Mohseni&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Cologne, Germany, 2021-02-24&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, online, 2021-02-24&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Collecting Data With the tuber Package for R&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -92,17 +92,6 @@ If you save your API credentials in an `R` script, anyone who has that script ca
 
 <blockquote class="twitter-tweet" align="center" data-width="400" data-lang="en" data-dnt="true" data-theme="dark"><p lang="en" dir="ltr">Sometimes google is protecting you...⤵️<br>(I forgot to delete my API key from my code 😱) <a href="https://t.co/7va0o19YmT">pic.twitter.com/7va0o19YmT</a></p>&mdash; Sil Aarts (@sil_aarts) <a href="https://twitter.com/sil_aarts/status/1187352423796477953?ref_src=twsrc%5Etfw">October 24, 2019</a></blockquote>
 
-
----
-
-# Excursus: Keep Your Secrets Secret (1)
-
-If you save your API credentials in an `R` script, anyone who has that script can potentially use your API key. This can affect your quota and might even cause costs for you.
-
-&lt;img src="./Images/Google_API_key_alert.png" width="60%" style="display: block; margin: auto;" /&gt;
-.center[
-&lt;small&gt;&lt;small&gt;Source: https://twitter.com/sil_aarts/status/1187352423796477953&lt;/small&gt;&lt;/small&gt;
-]
 
 ---
 
@@ -234,7 +223,7 @@ hadley_stats &lt;- get_channel_stats("UCxOhDvtaoXDAB336AolWs3A")
 
 ```
 ## Channel Title: Hadley Wickham 
-## No. of Views: 67136 
+## No. of Views: 67153 
 ## No. of Subscribers: 4260 
 ## No. of Videos: 6
 ```
@@ -247,6 +236,7 @@ Note: If you want additional data on channels/video creators and their performan
 
 `get_channel_stats` returns a list which can then be wrangled into a dataframe (or a a tibble as in the code below).
 
+.small[
 
 ```r
 hadley_stats_df &lt;- hadley_stats$statistics %&gt;% 
@@ -264,10 +254,10 @@ hadley_stats_df
 ## # A tibble: 1 x 7
 ##   viewCount subscriberCount hiddenSubscribe~ videoCount channel_id channel_name
 ##       &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
-## 1     67136            4260 FALSE                     6 UCxOhDvta~ Hadley Wick~
+## 1     67153            4260 FALSE                     6 UCxOhDvta~ Hadley Wick~
 ## # ... with 1 more variable: channel_published &lt;chr&gt;
 ```
-
+]
 ---
 
 # Video Statistics
@@ -289,7 +279,7 @@ dayum_stats_df
 ## # A tibble: 1 x 6
 ##   id          viewCount likeCount dislikeCount favoriteCount commentCount
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 DcJFdCmN98s  41539275    592395         7258             0        51278
+## 1 DcJFdCmN98s  41544949    592545         7257             0        51289
 ```
 
 ---
@@ -332,20 +322,6 @@ There are two functions for collecting viewer comments for specific videos (both
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-
-For the full list of functions in the package, see the [`tuber` reference manual](https://cran.r-project.org/web/packages/tuber/tuber.pdf).
-
----
-
-# Other Useful `tuber` Functions
-
-`get_video_details("video_id")`: list with metadata for the video (e.g., title, description, tags)
-
-`get_all_channel_video_stats("channel_id")`: list with statistics for all videos in a channel
-
-`get_playlists(filter=c(channel_id="channel_id"))`: list with playlists for a channel
-
-`get_playlist_items(filter=c(playlist_id="playlist_id"))`: dataframe with items from a playlist
 
 For the full list of functions in the package, see the [`tuber` reference manual](https://cran.r-project.org/web/packages/tuber/tuber.pdf).
 
@@ -417,7 +393,7 @@ get_stats
 ##     stat_res &lt;- res$statistics
 ##     c(id = res$id, stat_res)
 ## }
-## &lt;bytecode: 0x000000001a916078&gt;
+## &lt;bytecode: 0x000000001a4a8480&gt;
 ## &lt;environment: namespace:tuber&gt;
 ```
 
@@ -438,14 +414,14 @@ get_stats
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; get_channel_stats('channel_id') &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Channels &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; list &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; statistics,snippet &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; get_stats('video_id') &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Videos &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; list &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; statistics &lt;/td&gt;
@@ -507,6 +483,7 @@ search_p2 &lt;- yt_search(term = "search term",
 
 # Manual Quota Limit Management Example
 
+.small[
 
 ```r
 # turn search_p1 from a list into a dataframe
@@ -521,7 +498,7 @@ search_p1_df &lt;- ids_p1_df %&gt;%
 # combine search results from different pages into one dataframe
 search_results &lt;- bind_rows(search_p1, search_p2)
 ```
-
+]
 ---
 
 class: center, middle
