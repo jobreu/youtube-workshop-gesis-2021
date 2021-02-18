@@ -226,7 +226,7 @@ After that, you can close the browser tab/window and return to `R`/*RStudio*.
 
 # Channel Statistics (1)
 
-After authorizing your app, you test if everything works by getting some statistics for a channel. You can find the channel ID by searching on the *YouTube* website and then choosing Type = Channel from the options in the filter menu. When you click on the channel you want in the search results, you see the channel ID at the end of the URL (after "/channel/").
+After authorizing your app, you can test if everything works by getting some statistics for a channel. You can find the channel ID by clicking on the user name for a video on the *YouTube* website (the channel ID is at the end of the URL, after "/channel/"), by using the [*Commentpicker* tool](https://commentpicker.com/youtube-channel-id.php) or directly through the API (see [this Stackoverflow discussion](https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube/18665812#18665812)).
 
 
 
@@ -237,7 +237,7 @@ hadley_stats &lt;- get_channel_stats("UCxOhDvtaoXDAB336AolWs3A")
 
 ```
 ## Channel Title: Hadley Wickham 
-## No. of Views: 67526 
+## No. of Views: 67527 
 ## No. of Subscribers: 4280 
 ## No. of Videos: 6
 ```
@@ -268,7 +268,7 @@ hadley_stats_df
 ## # A tibble: 1 x 7
 ##   viewCount subscriberCount hiddenSubscribe~ videoCount channel_id channel_name
 ##       &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
-## 1     67526            4280 FALSE                     6 UCxOhDvta~ Hadley Wick~
+## 1     67527            4280 FALSE                     6 UCxOhDvta~ Hadley Wick~
 ## # ... with 1 more variable: channel_published &lt;chr&gt;
 ```
 ]
@@ -293,7 +293,7 @@ dayum_stats_df
 ## # A tibble: 1 x 6
 ##   id          viewCount likeCount dislikeCount favoriteCount commentCount
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 DcJFdCmN98s  41622739    594317         7274             0        51425
+## 1 DcJFdCmN98s  41622917    594326         7274             0        51425
 ```
 
 ---
@@ -305,6 +305,14 @@ There are two `tuber` functions for collecting viewer comments for specific vide
 1. `get_comment_threads()` collects comments for a video. By default, it collects the 100 most recent comments. The number of comments can be changed with the argument `max_results` (needs to be &gt;= 20). If the number is &gt; 100, the function fetches all results (see `?get_comment_threads`). **NB:** This function does not collect replies to comments.
 
 2. `get_all_comments()` collects all comments for a video, including replies to comments. **NB:** This function only collects up to 5 replies per comment (the related [issue in the `tuber` GitHub repo](https://github.com/soodoku/tuber/issues/52) is still open). Depending on the number of comments for a video, running this function can take some time and might also deplete your API quota limit (more on that later).
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2021/exercises/A4_tuber_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2021/solutions/A4_tuber_exercises_solution.html)
 
 ---
 
@@ -517,7 +525,7 @@ get_stats
 ##     stat_res &lt;- res$statistics
 ##     c(id = res$id, stat_res)
 ## }
-## &lt;bytecode: 0x0000000016417640&gt;
+## &lt;bytecode: 0x0000000016417420&gt;
 ## &lt;environment: namespace:tuber&gt;
 ```
 
@@ -570,7 +578,7 @@ For reference: `yt_search()` has a quota cost of 100 per page of results (with a
 
 a) Estimate the costs based on costs for the specific query and the number of returned results. For example, if a video has 4000 comments (without replies) and you wish to collect all of them, you can estimate your cost as follows: 100 results per page = 40 pages &amp; cost per page for `get_comment_threads()` = 1 -&gt; overall cost = 40. In practice, this is a bit more difficult to estimate as both the website of the video and `get_stats()` give you the comment count including replies.
 
-b) You can use the[*Google* Developer Console](https://console.developers.google.com) for monitoring your API quota use: Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6hrs).
+b) You can use the [*Google* Cloud Platform](https://console.cloud.google.com/) for monitoring your API quota use: Choose *APIs &amp; Services* from the Navigation Menu on the left-hand side and have a look at the stats for the *YouTube Data API v3* at the bottom of the *Dashboard* view. If you want a more detailed visualization of your quota use, you can get that via the [*Google* Developer Console](https://console.developers.google.com): Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6hrs). **NB**: It may take a while for the numbers to update after sending your API calls.
 
 ---
 
@@ -583,14 +591,6 @@ The daily quota for your app resets at midnight Pacific Time. There are 3 ways o
 2. Request an increase through the Quotas menu in the developer console for your app. However, this will quite likely cost money or might not work at all.
 
 3. Use multiple apps and/or accounts for your data collection. This requires some manual scheduling/planning. Keep in mind that there is a limited number of projects per account for the *Google* Cloud Platform. Note that - depending on your setup and use - this strategy might get your API quota, app(s), account(s) or IP address(es) suspended/blocked (at least temporarily) if employed excessively (and we can't put a number on what 'excessively' means here, so this is just a word of caution). 
-
----
-
-class: center, middle
-
-# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2020/exercises/A4_tuber_exercises_question.html) time 🏋️‍♀️💪🏃🚴
-
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2020/solutions/A4_tuber_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
