@@ -270,11 +270,29 @@ knitr::kable(
 
 ---
 
-# Tools for the Automatic Sampling of YouTube Data
+# Tools for the Automatic Sampling of YouTube Data without R
+
+Common Tools
+
+- [YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
+
+- [Facepager](https://github.com/strohne/Facepager/wiki)
 
 - [Webometric Analyst](http://lexiurl.wlv.ac.uk/)
 
-- [YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
+Websites with even more tools
+
+- [YouTube Tools](https://github.com/Leibniz-HBI/Social-Media-Observatory/wiki/YouTube-Tools)
+
+- [Social Media Research Tookit](https://socialmediadata.org/social-media-research-toolkit/)
+
+---
+
+# Tools for the Automatic Sampling of YouTube Data with R
+
+Common Packages
+
+- [vosonSML](https://cran.r-project.org/web/packages/vosonSML/) (formerly SocialMediaLab)
 
 - [tuber](https://cran.r-project.org/web/packages/tuber/)
 
