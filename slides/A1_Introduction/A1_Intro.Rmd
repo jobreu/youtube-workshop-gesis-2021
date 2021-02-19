@@ -192,8 +192,8 @@ include_graphics("./images/camel_snake_kebab.jpg")
 .center[**Wednesday, February 24th, 2021**]
 ```{r schedule Wed, echo = F}
 schedule <- data.frame(
-  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 14:30", "14:30 - 15:30", "15:30 - 16:00", "16:00 - 17:30", "18:00 - 20:00")
-  , "What?" = c("Introduction: Why is YouTube data interesting for research?", "<i>Coffee break</i>", "The YouTube API", "<i>Lunch break</i>", "Tools for the automatic sampling of YouTube data", "Collecting data with the tuber package for R","<i>Coffee break</i>", "Processing and cleaning user comments (in R)", "<i>Get Together</i>")
+  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 14:30", "14:30 - 15:30", "15:30 - 16:00", "16:00 - 17:30")
+  , "What?" = c("Introduction: Why is YouTube data interesting for research?", "<i>Coffee break</i>", "The YouTube API", "<i>Lunch break</i>", "Tools for the automatic sampling of YouTube data", "Collecting data with the tuber package for R","<i>Coffee break</i>", "Processing and cleaning user comments (in R)")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
