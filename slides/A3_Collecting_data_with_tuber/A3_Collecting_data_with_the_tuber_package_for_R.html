@@ -236,9 +236,13 @@ hadley_stats &lt;- get_channel_stats("UCxOhDvtaoXDAB336AolWs3A")
 ```
 
 ```
+## Auto-refreshing stale OAuth token.
+```
+
+```
 ## Channel Title: Hadley Wickham 
-## No. of Views: 67527 
-## No. of Subscribers: 4280 
+## No. of Views: 67603 
+## No. of Subscribers: 4290 
 ## No. of Videos: 6
 ```
 
@@ -268,7 +272,7 @@ hadley_stats_df
 ## # A tibble: 1 x 7
 ##   viewCount subscriberCount hiddenSubscribe~ videoCount channel_id channel_name
 ##       &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
-## 1     67527            4280 FALSE                     6 UCxOhDvta~ Hadley Wick~
+## 1     67603            4290 FALSE                     6 UCxOhDvta~ Hadley Wick~
 ## # ... with 1 more variable: channel_published &lt;chr&gt;
 ```
 ]
@@ -293,7 +297,7 @@ dayum_stats_df
 ## # A tibble: 1 x 6
 ##   id          viewCount likeCount dislikeCount favoriteCount commentCount
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 DcJFdCmN98s  41622917    594326         7274             0        51425
+## 1 DcJFdCmN98s  41639999    594676         7278             0        51434
 ```
 
 ---
@@ -302,9 +306,11 @@ dayum_stats_df
 
 There are two `tuber` functions for collecting viewer comments for specific videos (both return a dataframe by default):
 
-1. `get_comment_threads()` collects comments for a video. By default, it collects the 100 most recent comments. The number of comments can be changed with the argument `max_results` (needs to be &gt;= 20). If the number is &gt; 100, the function fetches all results (see `?get_comment_threads`). **NB:** This function does not collect replies to comments.
+1. `get_comment_threads()` collects comments for a video. By default, it collects the 100 most recent comments. The number of comments can be changed with the argument `max_results` (needs to be &gt;= 20). If the number is &gt; 100, the function fetches all results (see `?get_comment_threads`). **NB:** This function does not collect replies to comments. Also, when we tested it, the resulting dataframe only contained repetitions of the 100 most recent comments when `max_results` &gt; 100.
 
 2. `get_all_comments()` collects all comments for a video, including replies to comments. **NB:** This function only collects up to 5 replies per comment (the related [issue in the `tuber` GitHub repo](https://github.com/soodoku/tuber/issues/52) is still open). Depending on the number of comments for a video, running this function can take some time and might also deplete your API quota limit (more on that later).
+
+Our recommendation is that if you want more than the most recent 100 comments, you should use `get_all_comments()`, even if you do not want to analyze replies to comments (you can simply filter those out later on).
 
 ---
 
@@ -425,7 +431,7 @@ glimpse(search_results)
 ```
 ## Rows: 100
 ## Columns: 17
-## $ videoId                   &lt;chr&gt; "ENXvZ9YRjbo", "erG5rgNYSdk", "AGPdXYG1ms...
+## $ videoId                   &lt;chr&gt; "ENXvZ9YRjbo", "erG5rgNYSdk", "kemivUKb4f...
 ## $ publishedAt               &lt;chr&gt; "2009-06-17T05:26:28Z", "2009-06-17T05:47...
 ## $ channelId                 &lt;chr&gt; "UCjXfz0RBwagVrDo7uL6liqg", "UCjXfz0RBwag...
 ## $ title                     &lt;chr&gt; "Weezer - Say It Ain&amp;#39;t So (Official M...
@@ -439,7 +445,7 @@ glimpse(search_results)
 ## $ thumbnails.high.url       &lt;chr&gt; "https://i.ytimg.com/vi/ENXvZ9YRjbo/hqdef...
 ## $ thumbnails.high.width     &lt;chr&gt; "480", "480", "480", "480", "480", "480",...
 ## $ thumbnails.high.height    &lt;chr&gt; "360", "360", "360", "360", "360", "360",...
-## $ channelTitle              &lt;chr&gt; "WeezerVEVO", "WeezerVEVO", "weezer", "We...
+## $ channelTitle              &lt;chr&gt; "WeezerVEVO", "WeezerVEVO", "WeezerVEVO",...
 ## $ liveBroadcastContent      &lt;chr&gt; "none", "none", "none", "none", "none", "...
 ## $ publishTime               &lt;chr&gt; "2009-06-17T05:26:28Z", "2009-06-17T05:47...
 ```
@@ -525,7 +531,7 @@ get_stats
 ##     stat_res &lt;- res$statistics
 ##     c(id = res$id, stat_res)
 ## }
-## &lt;bytecode: 0x0000000016417420&gt;
+## &lt;bytecode: 0x000000001a5c88d8&gt;
 ## &lt;environment: namespace:tuber&gt;
 ```
 
@@ -576,9 +582,9 @@ For reference: `yt_search()` has a quota cost of 100 per page of results (with a
 
 # How do I Know the Quota Costs When I use `tuber`?
 
-a) Estimate the costs based on costs for the specific query and the number of returned results. For example, if a video has 4000 comments (without replies) and you wish to collect all of them, you can estimate your cost as follows: 100 results per page = 40 pages &amp; cost per page for `get_comment_threads()` = 1 -&gt; overall cost = 40. In practice, this is a bit more difficult to estimate as both the website of the video and `get_stats()` give you the comment count including replies.
+a) Estimate the costs based on costs for the specific query and the number of returned results. For example, if a video has 4000 comments and you wish to collect all of them, you can estimate your cost as follows: 100 results per page = 40 pages &amp; cost per page for `get_all_comments()` = 1 -&gt; overall cost = 40. In practice, this is a bit more difficult to estimate as both the website of the video and `get_stats()` give you the comment count including all replies, but `get_all_comments()` only returns up to 5 replies per comment.
 
-b) You can use the [*Google* Cloud Platform](https://console.cloud.google.com/) for monitoring your API quota use: Choose *APIs &amp; Services* from the Navigation Menu on the left-hand side and have a look at the stats for the *YouTube Data API v3* at the bottom of the *Dashboard* view. If you want a more detailed visualization of your quota use, you can get that via the [*Google* Developer Console](https://console.developers.google.com): Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6hrs). **NB**: It may take a while for the numbers to update after sending your API calls.
+b) You can use the [*Google* Cloud Platform](https://console.cloud.google.com/) for monitoring your API quota use: Choose *APIs &amp; Services* from the Navigation Menu on the left side and look at the stats for the *YouTube Data API v3* at the bottom of the *Dashboard* view. If you want a more detailed visualization, you can use the [*Google* Developer Console](https://console.developers.google.com): Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6hrs). **NB**: It takes abit for the numbers to update after sending your API calls.
 
 ---
 
