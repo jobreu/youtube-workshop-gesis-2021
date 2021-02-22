@@ -89,13 +89,13 @@ FormattedComments <- yt_parse(Comments) # this will take a while
 FormattedComments <- readRDS("../../data/emoji_comments_parsed.rds")
 ```
 
-As an alternative to parsing the `yt_parse.R` file you can also run the code from the session on *Processing and Cleaning User Comments* on the collected comments.
+As an alternative to sourcing the `yt_parse.R` file you can also run the code from the slides for the session on *Processing and Cleaning User Comments* on the collected comments.
 
 ---
 
 # Comments Over Time: Data Wrangling `r ji("cowboy")`
 
-First, we want to plot the development of the number of comments per week over time and show until when 50%, 75%, 90%, and 99% of the comments had been posted. This requires some data wrangling.
+For a first exploratory plot, we want to plot the development of the number of comments per week over time and show until when 50%, 75%, 90%, and 99% of the comments had been posted. This requires some data wrangling.
 
 ```{r wrangle-comments-over-time}
 FormattedComments <- FormattedComments %>% 
@@ -201,6 +201,8 @@ FormattedComments %>%
 
 In this session, we will discuss some basic exploratory analyses of *YouTube* user comments. We will explore the use of words as well as the use of emojis.
 
+--
+
 An introduction to text mining is beyond the scope of this workshop, but there are many great introductions available (for free) online. For example:
 
 - [Text Mining with R - A Tidy Approach](https://www.tidytextmining.com/) by Julia Silge & David Robinson: A tidy(verse) approach
@@ -210,6 +212,8 @@ An introduction to text mining is beyond the scope of this workshop, but there a
 - [Text mining for humanists and social scientists in R](https://tm4ss.github.io/docs/) by Andreas Niekler & Gregor Wiedemann
 
 - [Text Mining in R](https://www.kirenz.com/post/2019-09-16-r-text-mining/) by Jan Kirenz
+
+--
 
 In the following, we will very briefly introduce some key terms and steps in text mining, and then go through some examples of exploring *YouTube* comments (text + emojis).
 
@@ -249,7 +253,9 @@ For our examples in this session, we will go through the following preprocessing
   
 2. **Tokenization**: Splitting up strings into words (could also be combinations of multiple words: n-grams)
 
-3. **Stop word removal**: Stopwords are very frequent words that appear in almost all texts (e.g., "a","but","it", "the")
+3. **Stopword removal**: Stopwords are very frequent words that appear in almost all texts (e.g., "a","but","it", "the") but have low informational value for most analyses (at least in the social sciences)
+
+--
 
 **NB**: There are many other preprocessing options that we will not use for our examples, such as [stemming](https://en.wikipedia.org/wiki/Stemming), [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation) or natural language processing pipelines (e.g., to detect and select specific word types, such as nouns and adjectives). Keep in mind that the choice and order of these preprocessing steps is important and should be informed by your research question.
 
@@ -288,7 +294,7 @@ toks <- FormattedComments %>%
 
 # Document-Feature Matrix
 
-With the tokens we can create a document-feature matrix (DFM) and remove stopwords.
+With the tokens we can create a [document-feature matrix](https://quanteda.io/reference/dfm.html) (DFM) and remove [stopwords](https://en.wikipedia.org/wiki/Stop_word).
 
 ```{r dfm}
 commentsDfm <- dfm(toks, 
@@ -444,6 +450,8 @@ head(n = 20) %>%
 # Emojis
 
 In most of the research studying user-generated text from social media, emojis have, so far, been largely ignored. However, emojis convey emotions and meaning, and can, thus, provide additional information or context when working with textual data. 
+
+--
 
 In the following, we will do some exploratory analysis of emoji frequencies in *YouTube* comments. Before we can start, we first need to do some data cleaning again, then tokenize the emojis as some comments include more than one emoji, and create an emoji DFM.
 

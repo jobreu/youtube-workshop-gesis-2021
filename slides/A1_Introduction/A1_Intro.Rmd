@@ -3,7 +3,7 @@ title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Introduction"
 author: "Julian Kohne<br />Johannes Breuer<br />M. Rohangis Mohseni"
 date: "2021-02-24"
-location: "GESIS, Cologne, Germany"
+location: "GESIS, online"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -27,7 +27,8 @@ packages("knitr",
          "hadley/emo",
          prompt = F)
 
-options(htmltools.dir.version = FALSE)
+options(htmltools.dir.version = FALSE,
+        htmltools.preserve.raw = FALSE)
 
 opts_chunk$set(echo = FALSE,
                fig.align = "center")
@@ -46,10 +47,6 @@ xaringanExtra::use_extra_styles(hover_code_line = TRUE,
 ---
 
 # Goals of this course
-
-In this course you will learn...
-  - how to use *YouTube* data for research
-  - which tools exist for collecting *YouTube* data, their advantages and disadvantages
 
 After this course you should be able to...
   - automatically collect *YouTube* data
@@ -96,7 +93,7 @@ After this course you should be able to...
     - Data management
     - Open science
 
-[johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09)
+[johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09), [personal website](https://www.johannesbreuer.com/)
 
 ---
 
@@ -143,23 +140,51 @@ After this course you should be able to...
 
 ---
 
-# Preliminaries
+# Workshop Structure & Materials
 
-- Feel free to ask questions at any time  
-
-- We want to make this workshop as interactive as possible  
+- The workshop consists of a combination of lectures and hands-on exercises
 
 - Slides and other materials are available at
 
 [https://github.com/jobreu/youtube-workshop-gesis-2021](https://github.com/jobreu/youtube-workshop-gesis-2021)
 
+We also put the PDF versions of the slides and some other materials on the [GESIS Ilias repository](https://ilias.gesis.org/) for this course.
+
 ---
 
-# Base `R` vs. `tidyverse`
+# Zoom Etiquette
+
+- If possible, we invite you to turn on your camera (during the lecture and exercise parts); feel free to use a virtual background if you want to
+
+```{r tweet, echo = F}
+tweet_embed("https://twitter.com/PhdExhausted/status/1331956737683853318",
+            theme = "dark",
+            maxwidth = 400,
+            align = "center")
+```
+
+---
+
+# Zoom Etiquette
+
+- Please mute your microphones unless you are asking a question
+
+- Asking questions:
+  - If you have an immediate question during the lecture parts, please send it via text chat to one of the two people who are currently not presenting (the person you contact will either be able to answer your question directly or later forward it to the presenter)
+  - If you have a question that is not urgent and might be interesting for everybody, please wait until the end of the lecture part, then use the "raise hand" function in *Zoom* and ask your question via audio/video
+  - During the exercises you can also use "raise hand" + audio/video (if you have a question that might be interesting for others as well) or public or private text chat messages to ask questions
+
+- We will try to provide (one-on-one) "tech support" during the exercises (please contact us via the text chat if you have any technical issues/questions that we can solve)
+
+---
+
+# Preliminaries: Base `R` vs. `tidyverse`
 
 In this course, we will use a mixture of base `R` and `tidyverse` code as Julian prefers base `R`, Johannes prefers the `tidyverse`, and Ro is agnostic.
 
 ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyverse/) and [against](https://blog.ephorie.de/why-i-dont-use-the-tidyverse) using/teaching the `tidyverse`.
+
+--
 
 Johannes' experience with learning and teaching the `tidyverse` is something like this...
 ```{r tidyverse meme, out.width = "60%"}
@@ -170,13 +195,17 @@ include_graphics("./images/tidyverse_vs_baseR_meme.jpg")
 
 # The `tidyverse`
 
-If you've never seen `tidyverse` code, the most important thing to know is the `%>%` [(pipe) operator](https://magrittr.tidyverse.org/reference/pipe.html). Put briefly, the pipe operator takes an object (which can be the result of a previous function) and pipes it as the first argument into the next function. It may also be worthwhile to know/remember that `tidyverse` functions normally produce (and expect) [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe.
+If you've never seen `tidyverse` code, the most important thing to know is the `%>%` [(pipe) operator](https://magrittr.tidyverse.org/reference/pipe.html). Put briefly, the pipe operator takes an object (which can be the result of a previous function) and pipes it as the first argument into the next function. This means that `function(data = x, value = y)` is equivalent to `x %>% function(y)`.
 
-If you want a short primer (or need a quick refresher) on the `tidyverse`, you can check out this blog [post by Martin Frigaard](http://www.storybench.org/getting-started-with-tidyverse-in-r/) or this [short webinar by Thomas Mock](https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r). For a more in-depth exploration you can, e.g., have a look at the materials for the workshop [*Data Wrangling & Exploration with the Tidyverse in R*](https://github.com/jobreu/tidyverse-workshop-gesis-2019) that Johannes taught together with Stefan Jünger at GESIS in May 2019.
+It may also be worthwhile to know/remember that `tidyverse` functions normally produce [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe (and most `tidyverse` functions also expect dataframes/tibbles as input to their first argument).
+
+--
+
+If you want a short primer (or need a quick refresher) on the `tidyverse`, you can check out the blog posts by [Martin Frigaard](http://www.storybench.org/getting-started-with-tidyverse-in-r/) or [Dominic Royé](https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/). For a more in-depth exploration you can, e.g., also have a look at the materials for the workshop [*Data Wrangling & Exploration with the Tidyverse in R*](https://github.com/jobreu/tidyverse-workshop-gesis-2019) that Johannes taught together with Stefan Jünger at GESIS in May 2019.
 
 ---
 
-# What's in a name?
+# Preliminaries: What's in a name?
 
 Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
 
@@ -184,7 +213,7 @@ Another thing you might notice when looking at our code is that we love `r ji("s
 include_graphics("./images/camel_snake_kebab.jpg")
 ```
 .center[
-<small><small>Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)</small></small>
+<small><small>Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)</small></small>
 ]
 ---
 # Course schedule
@@ -192,8 +221,8 @@ include_graphics("./images/camel_snake_kebab.jpg")
 .center[**Wednesday, February 24th, 2021**]
 ```{r schedule Wed, echo = F}
 schedule <- data.frame(
-  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 14:30", "14:30 - 15:30", "15:30 - 16:00", "16:00 - 17:30")
-  , "What?" = c("Introduction: Why is YouTube data interesting for research?", "<i>Coffee break</i>", "The YouTube API", "<i>Lunch break</i>", "Tools for the automatic sampling of YouTube data", "Collecting data with the tuber package for R","<i>Coffee break</i>", "Processing and cleaning user comments (in R)")
+  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 15:00", "15:00 - 15:30", "15:30 - 17:00")
+  , "What?" = c("Introduction: Why is YouTube data interesting for research?", "<i>Coffee break</i>", "The YouTube API", "<i>Lunch break</i>", "Collecting data with the tuber package for R","<i>Coffee break</i>", "Processing and cleaning user comments (in R)")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
@@ -272,35 +301,31 @@ knitr::kable(
 
 # Tools for the Automatic Sampling of YouTube Data without R
 
-Common Tools
-
 - [YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
 
 - [Facepager](https://github.com/strohne/Facepager/wiki)
 
 - [Webometric Analyst](http://lexiurl.wlv.ac.uk/)
 
-Websites with even more tools
+Overviews of tools for collecting *YouTube* data
 
-- [YouTube Tools](https://github.com/Leibniz-HBI/Social-Media-Observatory/wiki/YouTube-Tools)
+- [YouTube Tools](https://github.com/Leibniz-HBI/Social-Media-Observatory/wiki/YouTube-Tools) collected by the Leibniz-HBI Social Media Observatory
 
-- [Social Media Research Tookit](https://socialmediadata.org/social-media-research-toolkit/)
+- [Social Media Research Tookit](https://socialmediadata.org/social-media-research-toolkit/) by the Social Media Lab at Ryerson University
 
 ---
 
 # Tools for the Automatic Sampling of YouTube Data with R
 
-Common Packages
-
 - [vosonSML](https://cran.r-project.org/web/packages/vosonSML/) (formerly SocialMediaLab)
 
 - [tuber](https://cran.r-project.org/web/packages/tuber/)
 
-In this course, we will work with the `tuber` package for `R`.
+In this course, we will work with the `tuber` package.
 
 ---
 
-# Overview
+# Comparisons of Approaches for Collecting *YouTube* Data
 
 ```{r tools table 1, echo = F}
 tools <- data.frame(
@@ -322,7 +347,7 @@ knitr::kable(
 
 ---
 
-# Pros and Cons
+# Pros and Cons of Different Approaches
 
 ```{r tools table 2, echo = F}
 tools_pc <- data.frame(
@@ -342,7 +367,7 @@ knitr::kable(
 )
 ```
 
-[Dayum Video](https://www.youtube.com/watch?v=DcJFdCmN98s) / [tuber bug](https://github.com/soodoku/tuber/issues/52)
+[Dayum Video](https://www.youtube.com/watch?v=DcJFdCmN98s) / [tuber issue](https://github.com/soodoku/tuber/issues/52)
 
 ---
 

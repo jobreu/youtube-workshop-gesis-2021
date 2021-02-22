@@ -53,6 +53,8 @@ With the [`tuber` package](https://github.com/soodoku/tuber) you can access the 
 vignette("tuber-ex")
 ```
 
+--
+
 Essentially, there are three main units of analysis for which you can access data with the `tuber` package:
 
 1. Videos
@@ -82,7 +84,7 @@ options(stringsAsFactors = FALSE)
 
 ---
 
-# Excursus: Keep Your Secrets Secret (1)
+# Excursus: Keep Your Secrets Secret
 
 If you save your API credentials in an `R` script, anyone who has that script can potentially use your API key. This can affect your quota and might even cause costs for you (if you have billing enabled for your project).
 
@@ -90,14 +92,14 @@ If you save your API credentials in an `R` script, anyone who has that script ca
 
 ---
 
-# Excursus: Keep Your Secrets Secret (1)
+# Excursus: Keep Your Secrets Secret
 
 <blockquote class="twitter-tweet" align="center" data-width="400" data-lang="en" data-dnt="true" data-theme="dark"><p lang="en" dir="ltr">Sometimes google is protecting you...⤵️<br>(I forgot to delete my API key from my code 😱) <a href="https://t.co/7va0o19YmT">pic.twitter.com/7va0o19YmT</a></p>&mdash; Sil Aarts (@sil_aarts) <a href="https://twitter.com/sil_aarts/status/1187352423796477953?ref_src=twsrc%5Etfw">October 24, 2019</a></blockquote>
 
 
 ---
 
-# Excursus: Keep Your Secrets Secret (2)
+# Excursus: Keep Your Secrets Secret
 
 One way of keeping your credentials safe(r) is using the `keyring` package.
 
@@ -191,6 +193,7 @@ After making your choice regarding the `.httr-oauth` file, a browser window shou
  *Google* will mark the app as unsecure as it has not been verified. However, since you created the app and presumably are its sole user, you can go ahead and trust yourself: Click "Extended".
 
 ![plot](Images/21.png)
+---
 
 # App Authorization (3)
 
@@ -236,12 +239,8 @@ hadley_stats &lt;- get_channel_stats("UCxOhDvtaoXDAB336AolWs3A")
 ```
 
 ```
-## Auto-refreshing stale OAuth token.
-```
-
-```
 ## Channel Title: Hadley Wickham 
-## No. of Views: 67603 
+## No. of Views: 67647 
 ## No. of Subscribers: 4290 
 ## No. of Videos: 6
 ```
@@ -272,7 +271,7 @@ hadley_stats_df
 ## # A tibble: 1 x 7
 ##   viewCount subscriberCount hiddenSubscribe~ videoCount channel_id channel_name
 ##       &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
-## 1     67603            4290 FALSE                     6 UCxOhDvta~ Hadley Wick~
+## 1     67647            4290 FALSE                     6 UCxOhDvta~ Hadley Wick~
 ## # ... with 1 more variable: channel_published &lt;chr&gt;
 ```
 ]
@@ -280,7 +279,7 @@ hadley_stats_df
 
 # Video Statistics
 
-The video IDs are the characters after the "v=" URL parameter. For example, for the video https://www.youtube.com/watch?v=DcJFdCmN98s the ID is "DcJFdCmN98s".
+To get statistics for a video you need its ID. The video IDs are the characters after the "v=" URL parameter. For example, for the video https://www.youtube.com/watch?v=DcJFdCmN98s the ID is "DcJFdCmN98s".
 
 
 ```r
@@ -297,7 +296,7 @@ dayum_stats_df
 ## # A tibble: 1 x 6
 ##   id          viewCount likeCount dislikeCount favoriteCount commentCount
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 DcJFdCmN98s  41639999    594676         7278             0        51434
+## 1 DcJFdCmN98s  41645856    594830         7279             0        51444
 ```
 
 ---
@@ -308,7 +307,11 @@ There are two `tuber` functions for collecting viewer comments for specific vide
 
 1. `get_comment_threads()` collects comments for a video. By default, it collects the 100 most recent comments. The number of comments can be changed with the argument `max_results` (needs to be &gt;= 20). If the number is &gt; 100, the function fetches all results (see `?get_comment_threads`). **NB:** This function does not collect replies to comments. Also, when we tested it, the resulting dataframe only contained repetitions of the 100 most recent comments when `max_results` &gt; 100.
 
+--
+
 2. `get_all_comments()` collects all comments for a video, including replies to comments. **NB:** This function only collects up to 5 replies per comment (the related [issue in the `tuber` GitHub repo](https://github.com/soodoku/tuber/issues/52) is still open). Depending on the number of comments for a video, running this function can take some time and might also deplete your API quota limit (more on that later).
+
+--
 
 Our recommendation is that if you want more than the most recent 100 comments, you should use `get_all_comments()`, even if you do not want to analyze replies to comments (you can simply filter those out later on).
 
@@ -338,9 +341,9 @@ comments &lt;- purrr::map_df(.x = video_ids,
 
 # Searching Video IDs with `tuber`
 
-`tuber` provides the function `yt_search()` to use the API to search *YouTube*. However, using this function is extremely costly in terms of API queries. 
+`tuber` provides the function `yt_search()` for using the API to search *YouTube*. However, using this function is extremely costly in terms of API queries/quotas. 
 
-A single search query with the `yt_search()` function can easily exceed your daily quota limit as, by default, it returns data for all search results (you can check the number of results for a search query via the *YouTube* Data API Explorer). Hence, if you want to use the `yt_search()` function, we would strongly recommend setting the `get_all` argument to `FALSE`. This returns up to 50 results.
+A single search query with the `yt_search()` function can easily exceed your daily quota limit as, by default, it returns data for all search results (you can check the number of results for a search query via the [*YouTube* Data API Explorer](https://developers.google.com/youtube/v3/docs/search/list)). Hence, if you want to use the `yt_search()` function, we would strongly recommend setting the `get_all` argument to `FALSE`. This returns up to 50 results.
 
 
 ```r
@@ -379,13 +382,13 @@ search_p1_snippet &lt;- lapply(search_p1$items, function(x) unlist(x$snippet))
 search_p1_ids &lt;- lapply(search_p1$items, function(x) unlist(x$id))
 ids_p1_df&lt;- purrr::map_dfr(search_p1_ids, bind_rows)
 search_p1_df &lt;- purrr::map_dfr(search_p1_snippet, bind_rows)
+
+# combine search results from different pages into one dataframe
 search_results &lt;- bind_rows(search_p1_df, search_p2) %&gt;% 
   mutate(videoId = case_when(is.na(videoId) ~ as.character(video_id),
                              TRUE ~ as.character(videoId))) %&gt;% 
-  select(-video_id)
-
-# combine search results from different pages into one dataframe
-search_results &lt;- bind_rows(search_p1_df, search_p2)
+  select(-video_id) %&gt;% 
+  relocate(videoId)
 ```
 ]
 
@@ -459,6 +462,8 @@ There are two alternatives to using the `yt_search()` function from the `tuber` 
 
 1. Manual search via the *YouTube* website: This works well for a small number of videos but is not really feasible if you want a large number of video IDs for your analyses.
 
+--
+
 2. Web scraping: [Freelon (2018)](https://www.tandfonline.com/doi/abs/10.1080/10584609.2018.1477506?journalCode=upcp20) argues that researchers interested in social media and other internet data should know/learn how to scrape the web in what he calls the "post-API age". However, you should use this method with caution. The [robots.txt of *YouTube*](https://www.youtube.com/robots.txt) disallows the scraping of results pages. In practical terms, the (over)use of web scraping might, e.g., get your IP address blocked (at least temporarily). A complete introduction to web scraping would be beyond the scope of this workshop, but we have created some slides with a short tutorial (in the folder with the slides on the *YouTube* API) and there are many online tutorials on this (e.g., [this one](https://blog.rsquaredacademy.com/web-scraping/)). 
 
 ---
@@ -494,6 +499,8 @@ There are two alternatives to using the `yt_search()` function from the `tuber` 
 
 For the full list of functions in the package, see the [`tuber` reference manual](https://cran.r-project.org/web/packages/tuber/tuber.pdf).
 
+--
+
 As always when using `R` (packages), it helps to check the documentation for the functions that you (want to) use. For example:
 
 ```r
@@ -505,7 +512,7 @@ As always when using `R` (packages), it helps to check the documentation for the
 
 # YouTube API Quota Limits
 
-In order to be able to estimate the quota costs of a specific API call via the `tuber` package, you need to know the specific queries that the function you use produces. If you want to do this, you can print the function code (you can do this in `R` by executing the function name without `()` at the end: e.g., `get_stats`). You can then use the information from that code for the [Quota Calculator](https://developers.google.com/youtube/v3/determine_quota_cost) or the API Explorer (by clicking on the respective method in the [YouTube API documentation](https://developers.google.com/youtube/v3/docs/)). The help file for the function of interest can also be useful here (`?get_stats`).
+In order to be able to estimate the quota costs of a specific API call via the `tuber` package, you need to know the specific queries that the function you use produces. If you want to do this, you can print the function code (you can do this in `R` by executing the function name without `()` at the end: e.g., `get_stats`). You can then use the information from that code for the [Quota Calculator](https://developers.google.com/youtube/v3/determine_quota_cost) or the API Explorer (by checking the respective method in the [YouTube API documentation](https://developers.google.com/youtube/v3/docs/)). The help file for the function of interest can also be useful here (`?get_stats`).
 
 ---
 
@@ -531,7 +538,7 @@ get_stats
 ##     stat_res &lt;- res$statistics
 ##     c(id = res$id, stat_res)
 ## }
-## &lt;bytecode: 0x000000001a5c88d8&gt;
+## &lt;bytecode: 0x000000001643dd60&gt;
 ## &lt;environment: namespace:tuber&gt;
 ```
 
@@ -584,7 +591,9 @@ For reference: `yt_search()` has a quota cost of 100 per page of results (with a
 
 a) Estimate the costs based on costs for the specific query and the number of returned results. For example, if a video has 4000 comments and you wish to collect all of them, you can estimate your cost as follows: 100 results per page = 40 pages &amp; cost per page for `get_all_comments()` = 1 -&gt; overall cost = 40. In practice, this is a bit more difficult to estimate as both the website of the video and `get_stats()` give you the comment count including all replies, but `get_all_comments()` only returns up to 5 replies per comment.
 
-b) You can use the [*Google* Cloud Platform](https://console.cloud.google.com/) for monitoring your API quota use: Choose *APIs &amp; Services* from the Navigation Menu on the left side and look at the stats for the *YouTube Data API v3* at the bottom of the *Dashboard* view. If you want a more detailed visualization, you can use the [*Google* Developer Console](https://console.developers.google.com): Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6hrs). **NB**: It takes abit for the numbers to update after sending your API calls.
+--
+
+b) You can use the [*Google* Cloud Platform](https://console.cloud.google.com/) for monitoring your API quota use: Choose *APIs &amp; Services* from the Navigation Menu on the left side and look at the stats for the *YouTube Data API v3* at the bottom of the *Dashboard* view. If you want a more detailed visualization, you can use the [*Google* Developer Console](https://console.developers.google.com): Choose your project, then on the *Dashboard* click on the name of the API in the list on the bottom (*YouTube Data API v3*), select *Quotas* from the menu on the left, and choose *Queries per minute* from the dropdown-menu for *Queries* as well as an appropriate timeframe (e.g., 6 hrs). **NB**: It takes a bit for the numbers to update after sending your API calls.
 
 ---
 
