@@ -69,16 +69,27 @@ library(emo)
 
 *Note*: To save time and your *YouTube* API quota limit you might not want to "code along" in this session
 
+Step 1: Collecting the comments
 
 ```r
 Comments &lt;- get_all_comments(video_id="r8pJt4dK_s4") # takes a while
-source("yt_parse.R") # yt_parse.R needs to be in the working directory here
+```
+
+--
+
+Step 2: Parse/process the comments
+
+For this to work, the script `yt_parse.R` as well as the ones containing the helper functions (`CamelCase.R`, `ExtractEmoji.R`, and `ReplaceEmoji.R`) need to be in the working directory (you can find those files in the `Scripts` folder in the workshop materials).
+
+
+```r
+source("yt_parse.R")
 FormattedComments &lt;- yt_parse(Comments) # this will take a while
 ```
 
 
 
-As an alternative to sourcing the `yt_parse.R` file you can also run the code from the slides for the session on *Processing and Cleaning User Comments* on the collected comments.
+*Note*: As an alternative to sourcing the `yt_parse.R` file you can also "manually" run the code from the slides for the session on *Processing and Cleaning User Comments* on the collected comments.
 
 ---
 

@@ -240,8 +240,8 @@ hadley_stats &lt;- get_channel_stats("UCxOhDvtaoXDAB336AolWs3A")
 
 ```
 ## Channel Title: Hadley Wickham 
-## No. of Views: 67647 
-## No. of Subscribers: 4290 
+## No. of Views: 67692 
+## No. of Subscribers: 4300 
 ## No. of Videos: 6
 ```
 
@@ -271,7 +271,7 @@ hadley_stats_df
 ## # A tibble: 1 x 7
 ##   viewCount subscriberCount hiddenSubscribe~ videoCount channel_id channel_name
 ##       &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
-## 1     67647            4290 FALSE                     6 UCxOhDvta~ Hadley Wick~
+## 1     67692            4300 FALSE                     6 UCxOhDvta~ Hadley Wick~
 ## # ... with 1 more variable: channel_published &lt;chr&gt;
 ```
 ]
@@ -296,7 +296,7 @@ dayum_stats_df
 ## # A tibble: 1 x 6
 ##   id          viewCount likeCount dislikeCount favoriteCount commentCount
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 DcJFdCmN98s  41645856    594830         7279             0        51444
+## 1 DcJFdCmN98s  41650484    594938         7279             0        51458
 ```
 
 ---
@@ -319,9 +319,9 @@ Our recommendation is that if you want more than the most recent 100 comments, y
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2021/exercises/A4_tuber_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2021/exercises/A3_tuber_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2021/solutions/A4_tuber_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2021/solutions/A3_tuber_exercises_solution.html)
 
 ---
 
@@ -434,9 +434,9 @@ glimpse(search_results)
 ```
 ## Rows: 100
 ## Columns: 17
-## $ videoId                   &lt;chr&gt; "ENXvZ9YRjbo", "erG5rgNYSdk", "kemivUKb4f...
-## $ publishedAt               &lt;chr&gt; "2009-06-17T05:26:28Z", "2009-06-17T05:47...
-## $ channelId                 &lt;chr&gt; "UCjXfz0RBwagVrDo7uL6liqg", "UCjXfz0RBwag...
+## $ videoId                   &lt;chr&gt; "ENXvZ9YRjbo", "AGPdXYG1msg", "erG5rgNYSd...
+## $ publishedAt               &lt;chr&gt; "2009-06-17T05:26:28Z", "2021-01-21T05:01...
+## $ channelId                 &lt;chr&gt; "UCjXfz0RBwagVrDo7uL6liqg", "UC7JDBUzkcwR...
 ## $ title                     &lt;chr&gt; "Weezer - Say It Ain&amp;#39;t So (Official M...
 ## $ description               &lt;chr&gt; "Music video by Weezer performing Say It ...
 ## $ thumbnails.default.url    &lt;chr&gt; "https://i.ytimg.com/vi/ENXvZ9YRjbo/defau...
@@ -448,9 +448,9 @@ glimpse(search_results)
 ## $ thumbnails.high.url       &lt;chr&gt; "https://i.ytimg.com/vi/ENXvZ9YRjbo/hqdef...
 ## $ thumbnails.high.width     &lt;chr&gt; "480", "480", "480", "480", "480", "480",...
 ## $ thumbnails.high.height    &lt;chr&gt; "360", "360", "360", "360", "360", "360",...
-## $ channelTitle              &lt;chr&gt; "WeezerVEVO", "WeezerVEVO", "WeezerVEVO",...
+## $ channelTitle              &lt;chr&gt; "WeezerVEVO", "weezer", "WeezerVEVO", "We...
 ## $ liveBroadcastContent      &lt;chr&gt; "none", "none", "none", "none", "none", "...
-## $ publishTime               &lt;chr&gt; "2009-06-17T05:26:28Z", "2009-06-17T05:47...
+## $ publishTime               &lt;chr&gt; "2009-06-17T05:26:28Z", "2021-01-21T05:01...
 ```
 ]
 
@@ -538,7 +538,7 @@ get_stats
 ##     stat_res &lt;- res$statistics
 ##     c(id = res$id, stat_res)
 ## }
-## &lt;bytecode: 0x000000001643dd60&gt;
+## &lt;bytecode: 0x000000001641c1b8&gt;
 ## &lt;environment: namespace:tuber&gt;
 ```
 
