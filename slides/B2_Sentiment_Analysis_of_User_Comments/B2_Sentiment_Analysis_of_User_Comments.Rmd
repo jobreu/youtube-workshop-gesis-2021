@@ -154,7 +154,7 @@ First of all, we load our preprocessed comments and try out the build in basic s
 
 ```{r, echo = TRUE}
 # loading data
-comments <- readRDS("../../data/ParsedComments.rds")
+comments <- readRDS("../../data/ParsedEmojiComments.rds")
 
 # loading package
 library(syuzhet)
@@ -583,7 +583,7 @@ in comparison, our data looks like this:
   
 ```{r, echo = TRUE}
 # Example from our data 
-comments$Emoji[3138]
+comments$Emoji[85]
 ```
 
 ---

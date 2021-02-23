@@ -103,16 +103,16 @@ lexicon::hash_sentiment_jockers[sample(1:10738,10),]
 
 ```
 ##                x     y
-##  1:    liability -0.50
-##  2:       eroded -0.60
-##  3:      nemesis -1.00
-##  4:       robber -0.50
-##  5:       matted -0.40
-##  6: rediscovered  0.25
-##  7:     unbelief -0.60
-##  8:     flexible  0.60
-##  9:     exhausts -0.80
-## 10:    ultimatum -0.50
+##  1:    affronted -1.00
+##  2:      digress -0.25
+##  3:        caged -0.80
+##  4:       gospel  0.10
+##  5:         yowl -0.40
+##  6:   implicated -0.25
+##  7: breakthrough  0.50
+##  8:   xenophobia -0.25
+##  9:     spoonfed -0.25
+## 10:      welcome  0.50
 ```
 
 ---
@@ -163,7 +163,7 @@ First of all, we load our preprocessed comments and try out the build in basic s
 
 ```r
 # loading data
-comments &lt;- readRDS("../../data/ParsedComments.rds")
+comments &lt;- readRDS("../../data/ParsedEmojiComments.rds")
 
 # loading package
 library(syuzhet)
@@ -192,7 +192,7 @@ summary(BasicSentiment)
 
 ```
 ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -10.75000  -0.50000   0.00000  -0.01116   0.60000  11.70000
+## -34.45000  -0.50000   0.00000  -0.07408   0.25000  19.95000
 ```
 
 Checking the documentation of the `get_sentiment()` function reveals that it can take different _methods_ as arguments. These methods correspond to different dictionaries and might yield different results. The function also allows to use a custom dictionary by providing a dataframe to the _lexicon_ argument
@@ -250,10 +250,10 @@ cor(Sentiments[,c(-5)])
 
 ```
 ##           Syuzhet      Bing     Afinn       NRC
-## Syuzhet 1.0000000 0.7501405 0.7421081 0.6528393
-## Bing    0.7501405 1.0000000 0.6706855 0.4647964
-## Afinn   0.7421081 0.6706855 1.0000000 0.4333834
-## NRC     0.6528393 0.4647964 0.4333834 1.0000000
+## Syuzhet 1.0000000 0.7932955 0.7529259 0.6997754
+## Bing    0.7932955 1.0000000 0.7142517 0.5828193
+## Afinn   0.7529259 0.7142517 1.0000000 0.5075283
+## NRC     0.6997754 0.5828193 0.5075283 1.0000000
 ```
 
 ---
@@ -500,11 +500,72 @@ strwrap(comments[order(comments$SentiDiff),c(2)][1:5],79)
 ```
 
 ```
-## [1] "@CottonCatt I wish"                                               
-## [2] "@SuddenReal Yeah but 'no' would be a real protest to the question"
-## [3] "Ive DEFINITELY had a group poop nightmare 😬"                     
-## [4] "Margarita M. Ugh I wish hahah"                                    
-## [5] "3:35 wtf? 😂😂😂"
+##  [1] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [2] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [3] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [4] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [5] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [6] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [7] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [8] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+##  [9] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+## [10] "CRINGE"                                                                        
+## [11] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+## [12] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+## [13] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+## [14] "CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE CRINGE"  
+## [15] "CRINGE CRINGE CRINGE CRINGE CRINGE I need some clorox"                         
+## [16] "This trailer gave me: Achondroplasia, Acne, AIDS, Albinism, Alcoholic"         
+## [17] "hepatitis, Allergy, Alopecia, Alzheimer's disease, Amblyopia, Amebiasis,"      
+## [18] "Anemia, Aneurdu, Anorexia, Anosmia, Anotia, Anthrax, Appendicitis, Apraxia,"   
+## [19] "Argyria, Arthritis, Aseptic meningitis, Asthenia, Asthma, Astigmatism,"        
+## [20] "Atherosclerosis, Athetosis, Atrophy, Bacterial meningitis, Barack Obama"       
+## [21] "syndrome, Beriberi, Biebertitis, Black Death, Botulism, Breast cancer,"        
+## [22] "Bronchitis, Brucellosis, Bubonic plague, Bunion, Bella killer, Calculi,"       
+## [23] "Campylobacter infection, Cancer, Candidiasis, Carbon monoxide poisoning,"      
+## [24] "Celiacs disease, Cerebral palsy, Chagas disease, Chalazion, Chancroid, Chavia,"
+## [25] "Cherubism, Chickenpox, Chlamydia, Chlamydia trachomatis, Cholera, Chordoma,"   
+## [26] "Chorea, Chronic fatigue syndrome, Circadian rhythm sleep disorder,"            
+## [27] "Coccidioidomycosis, Colitis, Common cold, Condyloma, Congestive heart disease,"
+## [28] "Coronary heart disease, Cowpox, Cretinism, Crohn's Disease, Dengue, Diabetes"  
+## [29] "mellitus, Diphtheria, Diarrhoea, Dehydration, Ear infection, Ebola,"           
+## [30] "Encephalitis, Emphysema, Epilepsy, Erectile dysfunction, Foodborne illness,"   
+## [31] "Gangrene, Gastroenteritis, Genital herpes, GERD, Goitre, Gonorrhea, Heart"     
+## [32] "disease, Hepatitis A, Hepatitis B, Hepatitis C, Hepatitis D, Hepatitis E,"     
+## [33] "Hepatitis F (Childhood Herpes), Histiocytosis (Childhood Cancer), HIV, Human"  
+## [34] "papillomavirus, Huntington's disease, Hypermetropia, Hyperopia,"               
+## [35] "Hyperthyroidism, Hypothermia, Hypothyroid, Hypotonia, Impetigo, Infertility,"  
+## [36] "Influenza, Interstitial cystitis, Iritis, Iron-deficiency anemia, Irritable"   
+## [37] "bowel syndrome, Ignious Syndrome, Jaundice, Keloids, Kuru, Kwashiorkor,"       
+## [38] "Laryngitis, Lead poisoning, Leaking scrotum syndrome, Legionellosis,"          
+## [39] "Leishmaniasis, Leprosy, Leptospirosis, Listeriosis, Leukemia, Lice, Loiasis,"  
+## [40] "Lung cancer, Lupus erythematosus, Lyme disease, Lymphogranuloma venereum,"     
+## [41] "Lymphoma, Malaria, Marburg fever, Measles, Melanoma, Melioidosis, Metastatic"  
+## [42] "cancer, Ménière's disease, Meningitis, Migraine, Mononucleosis, Multiple"      
+## [43] "myeloma, Multiple sclerosis, Mumps, Muscular dystrophy, Myasthenia gravis,"    
+## [44] "Myelitis, Myoclonus, Myopia, Myxedema, Morquio Syndrome, Mattticular syndrome,"
+## [45] "Neoplasm, Non-gonococcal urethritis, Necrotizing Fasciitis, Night blindness,"  
+## [46] "Obesity, One Infection, Osteoarthritis, Osteoporosis, Otitis, Palindromic"     
+## [47] "rheumatism, Paratyphoid fever, Parkinson's disease, Pelvic inflammatory"       
+## [48] "disease, Peritonitis, Periodontal disease, Pertussis, Phenylketonuria, Plague,"
+## [49] "Poliomyelitis, Porphyria, Progeria, Prostatitis, Psittacosis, Psoriasis, Pubic"
+## [50] "lice, Pulmonary embolism, Pilia, Q fever, Ques fever, Rabies, Repetitive"      
+## [51] "strain injury, Rheumatic fever, Rheumatic heart, Rheumatism, Rheumatoid"       
+## [52] "arthritis, Rickets, Rift Valley fever, Rocky Mountain spotted fever, Rubella," 
+## [53] "Salmonellosis, Sandy vagina, Scabies, Scarlet fever, Sciatica, Scleroderma,"   
+## [54] "Scrapie, Scurvy, Sepsis, Septicemia, SARS, Shigellosis, Shin splints,"         
+## [55] "Shingles, Sickle-cell anemia, Siderosis, SIDS, Silicosis, Smallpox,"           
+## [56] "Stevens-Johnson syndrome, Stomach flu, Stomach ulcers, Strabismus, Strep"      
+## [57] "throat, Streptococcal infection, Swag, Synovitis, Syphilis, Swine influenza,"  
+## [58] "Schizophrenia, Taeniasis, Tay-Sachs disease, Tennis elbow, Teratoma, Tetanus," 
+## [59] "Thalassaemia, Thrush, Thymoma, Tinnitus, Tonsillitis, Tooth decay, Toxic shock"
+## [60] "syndrome, Trichinosis, Trichomoniasis, Trisomy, Tuberculosis, Tularemia,"      
+## [61] "Tungiasis, Typhoid fever, Typhus, Tumor, Ulcerative colitis, Ulcers, Uremia,"  
+## [62] "Urticaria, Uveitis, Vaginal warts, Varicella, Varicose veins, Vasovagal"       
+## [63] "syncope, Vitiligo, Von Hippel-Lindau disease, Viral fever, Viral meningitis,"  
+## [64] "Warkany syndrome, Warts, Watkins, Yellow fever, Yersiniosis, Zygamantis"       
+## [65] "pain pain pain pain pain pain pain pain"                                       
+## [66] "Please don't use emojis but good joke"
 ```
 
 ---
@@ -532,7 +593,7 @@ sentiments based on word dictionaries due to multiple reasons:
 - Emoji can have multiple meanings: 🙏
 - They are highly context dependent: 🍆
 - They are culture-dependent: 🍑
-- They are person-dependent: 🤣 😂
+- They are person-dependent: 😆 😂
 
 
 ---
@@ -592,11 +653,11 @@ in comparison, our data looks like this:
 
 ```r
 # Example from our data 
-comments$Emoji[3138]
+comments$Emoji[85]
 ```
 
 ```
-## [1] "EMOJI_GrinningFace "
+## [1] "EMOJI_RollingOnTheFloorLaughing EMOJI_RollingOnTheFloorLaughing EMOJI_RollingOnTheFloorLaughing "
 ```
 
 ---
@@ -639,7 +700,7 @@ EmojiToks[130:131]
 ## [1] "emoji_facewithtearsofjoy" "emoji_facewithtearsofjoy"
 ## 
 ## text131 :
-## [1] "emoji_facewithtearsofjoy"
+## [1] "na"
 ```
 
 ---
@@ -663,7 +724,7 @@ EmojiToksSent[130:131]
 ## [1] "0.220968403775133" "0.220968403775133"
 ## 
 ## text131 :
-## [1] "0.220968403775133"
+## character(0)
 ```
 
 ---
@@ -693,7 +754,7 @@ MeanEmojiSentiment[130:131]
 
 ```
 ##   text130   text131 
-## 0.2209684 0.2209684
+## 0.2209684       NaN
 ```
   
 ---
@@ -715,7 +776,7 @@ cor(comments$ave_sentiment,
 ```
 
 ```
-## [1] 0.1707166
+## [1] 0.1423646
 ```
 
 
