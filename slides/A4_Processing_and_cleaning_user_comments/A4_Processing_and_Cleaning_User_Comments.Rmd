@@ -117,7 +117,7 @@ Loading the unprocessed comments into R
 
 ```{r, echo = TRUE}
 # loading raw data (This is the BackUp file)
-comments <- readRDS("../../data/emoji_comments.rds")
+comments <- readRDS("../../data/RawEmojiComments.rds")
 ```
 
 ---
@@ -302,7 +302,7 @@ that is not directly available in the raw data. Consider for example these comme
 ```{r, echo = TRUE}
 # Example comments with extractable information
 Selection$textOriginal[235]
-Selection$textOriginal[34073]
+strwrap(Selection$textOriginal[34073],79)
 ```
 
 There are two issues exemplified by these comments:
@@ -324,7 +324,7 @@ expressions. You can learn more about regular expressions [here](https://en.wiki
 library(qdapRegex)
 Links <- rm_url(Selection$textOriginal, extract = TRUE)
 LinkDel <- rm_url(Selection$textOriginal)
-head(Links,2)
+Links[34071:34073]
 ```
 
 ---

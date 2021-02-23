@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <meta name="author" content="Julian Kohne Johannes Breuer M. Rohangis Mohseni" />
     <meta name="date" content="2021-02-24" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
@@ -111,7 +110,7 @@ Loading the unprocessed comments into R
 
 ```r
 # loading raw data (This is the BackUp file)
-comments &lt;- readRDS("../../data/emoji_comments.rds")
+comments &lt;- readRDS("../../data/RawEmojiComments.rds")
 ```
 
 ---
@@ -270,7 +269,7 @@ Sys.time() - Selection$publishedAt[1]
 ```
 
 ```
-## Error in unclass(e1) - e2: nicht-numerisches Argument für binären Operator
+## Error in unclass(e1) - e2: non-numeric argument to binary operator
 ```
 
 ---
@@ -342,7 +341,7 @@ Sys.time() - testtime
 ```
 
 ```
-## Time difference of 4.555943 days
+## Time difference of 4.648049 days
 ```
 
 This internal representation of time objects will be extremely important for plotting trends over time
@@ -402,15 +401,16 @@ Selection$textOriginal[235]
 ```
 
 ```
-## [1] "Amazing movie &lt;U+0001F929&gt;"
+## [1] "Amazing movie 🤩"
 ```
 
 ```r
-Selection$textOriginal[34073]
+strwrap(Selection$textOriginal[34073],79)
 ```
 
 ```
-## [1] "hey people! YOU can help! sign this! http://www.ipetitions.com/petition/help-get-the-emoji-movie-canceled"
+## [1] "hey people! YOU can help! sign this!"                                
+## [2] "http://www.ipetitions.com/petition/help-get-the-emoji-movie-canceled"
 ```
 
 There are two issues exemplified by these comments:
@@ -433,7 +433,7 @@ expressions. You can learn more about regular expressions [here](https://en.wiki
 library(qdapRegex)
 Links &lt;- rm_url(Selection$textOriginal, extract = TRUE)
 LinkDel &lt;- rm_url(Selection$textOriginal)
-head(Links,2)
+Links[34071:34073]
 ```
 
 ```
@@ -442,6 +442,9 @@ head(Links,2)
 ## 
 ## [[2]]
 ## [1] NA
+## 
+## [[3]]
+## [1] "http://www.ipetitions.com/petition/help-get-the-emoji-movie-canceled"
 ```
 
 ---
@@ -496,7 +499,7 @@ emo::ji("monkey")
 ```
 
 ```
-## &lt;U+0001F412&gt;
+## 🐒
 ```
 
 with this
@@ -524,11 +527,11 @@ EmojiList[1:3,c(1,3,4)]
 
 ```
 ## # A tibble: 3 x 3
-##   runes emoji        name                          
-##   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;                         
-## 1 1F600 "\U0001f600" grinning face                 
-## 2 1F601 "\U0001f601" beaming face with smiling eyes
-## 3 1F602 "\U0001f602" face with tears of joy
+##   runes emoji name                          
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                         
+## 1 1F600 😀    grinning face                 
+## 2 1F601 😁    beaming face with smiling eyes
+## 3 1F602 😂    face with tears of joy
 ```
 
 ---
@@ -570,11 +573,11 @@ EmojiList[1:3,c(1,3,4)]
 
 ```
 ## # A tibble: 3 x 3
-##   runes emoji        name                      
-##   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;                     
-## 1 1F600 "\U0001f600" GrinningFace              
-## 2 1F601 "\U0001f601" BeamingFaceWithSmilingEyes
-## 3 1F602 "\U0001f602" FaceWithTearsOfJoy
+##   runes emoji name                      
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                     
+## 1 1F600 😀    GrinningFace              
+## 2 1F601 😁    BeamingFaceWithSmilingEyes
+## 3 1F602 😂    FaceWithTearsOfJoy
 ```
 
 
@@ -591,13 +594,13 @@ head(EmojiList[,c(1,3,4)],5)
 
 ```
 ## # A tibble: 5 x 3
-##   runes                     emoji                                     name      
-##   &lt;chr&gt;                     &lt;chr&gt;                                     &lt;chr&gt;     
-## 1 1F469 200D 2764 FE0F 200~ "\U0001f469&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f469"         Kiss:Woma~
-## 2 1F468 200D 2764 FE0F 200~ "\U0001f468&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f468"         Kiss:Man,~
-## 3 1F469 200D 2764 FE0F 200~ "\U0001f469&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f468"         Kiss:Woma~
-## 4 1F3F4 E0067 E0062 E0077 ~ "\U0001f3f4\U000e0067\U000e0062\U000e007~ Wales     
-## 5 1F3F4 E0067 E0062 E0073 ~ "\U0001f3f4\U000e0067\U000e0062\U000e007~ Scotland
+##   runes                                      emoji name            
+##   &lt;chr&gt;                                      &lt;chr&gt; &lt;chr&gt;           
+## 1 1F469 200D 2764 FE0F 200D 1F48B 200D 1F469 👩‍❤️‍💋‍👩    Kiss:Woman,Woman
+## 2 1F468 200D 2764 FE0F 200D 1F48B 200D 1F468 👨‍❤️‍💋‍👨    Kiss:Man,Man    
+## 3 1F469 200D 2764 FE0F 200D 1F48B 200D 1F468 👩‍❤️‍💋‍👨    Kiss:Woman,Man  
+## 4 1F3F4 E0067 E0062 E0077 E006C E0073 E007F  🏴󠁧󠁢󠁷󠁬󠁳󠁿    Wales           
+## 5 1F3F4 E0067 E0062 E0073 E0063 E0074 E007F  🏴󠁧󠁢󠁳󠁣󠁴󠁿    Scotland
 ```
 Note that what we are ordering by the `emoji` column, not the `text` or `runes` columns
 
@@ -636,7 +639,7 @@ Selection$textOriginal[235]
 ```
 
 ```
-## [1] "Amazing movie &lt;U+0001F929&gt;"
+## [1] "Amazing movie 🤩"
 ```
 
 ```r
@@ -688,7 +691,7 @@ LinkDel[235]
 ```
 
 ```
-## [1] "Amazing movie &lt;U+0001F929&gt;"
+## [1] "Amazing movie 🤩"
 ```
 
 ```r
@@ -712,7 +715,7 @@ LinkDel[235]
 ```
 
 ```
-## [1] "Amazing movie &lt;U+0001F929&gt;"
+## [1] "Amazing movie 🤩"
 ```
 
 ```r
