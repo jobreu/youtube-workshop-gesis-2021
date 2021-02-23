@@ -185,7 +185,7 @@ token$`0123456789abcdefghij`$app$appname
 
 After making your choice regarding the `.httr-oauth` file, a browser window should open, prompting you to log in with your *Google* account and to give permissions.
 
-![plot](Images/20.png)
+![plot](images/20.png)
 
 ---
 
@@ -193,14 +193,14 @@ After making your choice regarding the `.httr-oauth` file, a browser window shou
 
  *Google* will mark the app as unsecure as it has not been verified. However, since you created the app and presumably are its sole user, you can go ahead and trust yourself: Click "Extended".
 
-![plot](Images/21.png)
+![plot](images/21.png)
 ---
 
 # App Authorization (3)
 
 Click "Go to Name_of_your_app(unsafe)".
 
-![plot](Images/22.png)
+![plot](images/22.png)
 
 ---
 
@@ -208,7 +208,7 @@ Click "Go to Name_of_your_app(unsafe)".
 
 Click "Allow" to grant the app the required permissions this your account.
 
-![plot](Images/23.png)
+![plot](images/23.png)
 
 ---
 
@@ -216,7 +216,7 @@ Click "Allow" to grant the app the required permissions this your account.
 
 Click "Allow" again to confirm your choice
 
-![plot](Images/24.png)
+![plot](images/24.png)
 
 ---
 
@@ -224,7 +224,7 @@ Click "Allow" again to confirm your choice
 
 After that, you can close the browser tab/window and return to `R`/*RStudio*.
 
-![plot](Images/25.png)
+![plot](images/25.png)
 
 ---
 
