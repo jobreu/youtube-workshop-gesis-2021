@@ -258,7 +258,7 @@ yt_oauth(ID,secret)
 ---
 # Grant yourself access
 
-- confirm your choices once more by clicking on "Allow"
+- confirm your choices once more by clicking on 'allow'
 
 ![plot](Images/25.png)
 
