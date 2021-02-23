@@ -86,7 +86,7 @@ FormattedComments <- yt_parse(Comments) # this will take a while
 ```
 
 ```{r load-data, echo=F}
-FormattedComments <- readRDS("../../data/emoji_comments_parsed.rds")
+FormattedComments <- readRDS("../../data/ParsedEmojiComments.rds")
 ```
 
 As an alternative to sourcing the `yt_parse.R` file you can also run the code from the slides for the session on *Processing and Cleaning User Comments* on the collected comments.
