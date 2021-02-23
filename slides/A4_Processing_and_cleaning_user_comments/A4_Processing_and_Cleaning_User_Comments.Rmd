@@ -117,7 +117,7 @@ Loading the unprocessed comments into R
 
 ```{r, echo = TRUE}
 # loading raw data (This is the BackUp file)
-comments <- readRDS("../../data/RawComments.rds")
+comments <- readRDS("../../data/emoji_comments.rds")
 ```
 
 ---
@@ -149,7 +149,7 @@ A quick look into the documentation reveals:
 ---
 # Understanding Your Data (3)
 
-...or for knowing how specific datatypes are formatted
+...or for knowing how specific data types are formatted
 
 ```{r, echo = TRUE}
 head(comments$publishedAt)
@@ -158,7 +158,7 @@ class(comments$publishedAt)
 
 A quick look into the documentation reveals:
 
-**publishedAt**: _The date and time when the comment was orignally published. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format._
+**publishedAt**: _The date and time when the comment was originally published. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format._
 
 ---
 # Understanding Your Data (4)
@@ -166,8 +166,8 @@ A quick look into the documentation reveals:
 ...or how similar variables are different from each other
 
 ```{r}
-comments$textOriginal[8]
-strwrap(comments$textDisplay[8],79)
+comments$textOriginal[195]
+strwrap(comments$textDisplay[195],79)
 ```
 
 **textOriginal**: _The original, raw text of the comment as it was initially posted or last updated. The original text is only returned if it is accessible to the authenticated user, which is only guaranteed if the user is the comment's author._
@@ -191,7 +191,7 @@ colnames(Selection)
 
 ```
 
-**Word of advice**: Always keep an unalterd copy of your raw data and don't overwrite it. You never know what kinds of mistakes/oversights you might notice down the line and you don't want to have to recollect everything. Save your parsed data in a seperate file (or in multiple steps if your preprocessing pipeline is complex).
+**Word of advice**: Always keep an unaltered copy of your raw data and don't overwrite it. You never know what kinds of mistakes/oversights you might notice down the line and you don't want to have to recollect everything. Save your parsed data in a separate file (or in multiple steps if your preprocessing pipeline is complex).
 
 ---
 # Formatting your Data
@@ -215,7 +215,7 @@ Sys.time() - Selection$publishedAt[1]
 ---
 # Formatting `likeCount`
 
-We want the `likeCount` to be a numeric variable and the timestamps to be datetime objects
+We want the `likeCount` to be a numeric variable and the time stamps to be datetime objects
 
 ```{r, echo = TRUE}
 # Transforming likeCount to numeric
@@ -231,7 +231,7 @@ We can now work with the number of likes as a numeric variable
 ---
 # Formatting your Timestamps (1)
 
-Timestamps are extremely complex objects due to:
+Time stamps are extremely complex objects due to:
  - Different calendars
  - Different formattings
  - Different origins
@@ -242,13 +242,13 @@ Timestamps are extremely complex objects due to:
  - Leap years
  - [etc.](https://www.youtube.com/watch?v=-5wpm-gesOY)
  
-For these reasons, **never** try to code your own timestamp translations from scratch. Fortunately, R has several build in methods to deal with this madness. The most basic one as the `as.POSIXct()` function, the most convenient one is the `anytime()` function from the `anytime` package.
+For these reasons, **never** try to code your own time stamp translations from scratch. Fortunately, R has several build in methods to deal with this madness. The most basic one as the `as.POSIXct()` function, the most convenient one is the `anytime()` function from the `anytime` package.
 
 ---
 # Formatting Timestamps (2)
 
 ```{r, echo = TRUE}
-# transforming timestamps to datetime objects
+# transforming time stamps to datetime objects
 Selection$publishedAt[1]
 testtime <- as.POSIXct(Selection$publishedAt[1],
                        format = "%Y-%m-%dT%H:%M:%OSZ",
@@ -268,7 +268,7 @@ and calculating time differences
 # Formatting Timestamps (3)
 
 A more convenient way to transform datetimes is the `anytime` package. Basically, it automatically tries
-to guess the format from the cahracter string, so you don't have to. This is especially handy for vectors 
+to guess the format from the character string, so you don't have to. This is especially handy for vectors 
 of datetimes in multiple different formats.
 
 ```{r, echo = TRUE}
@@ -281,12 +281,12 @@ Selection$updatedAt <- anytime(Selection$updatedAt,
 sapply(list(Selection$publishedAt,Selection$updatedAt),class)
 ```
 
-**Word of Advice**: For datetime conversions, always do some sanity spotchecks, especially when you are using methods that automatically detect the format. Give special attention to the _timezone_ in which your data is saved and compare it to the documentation of the standard.
+**Word of Advice**: For datetime conversions, always do some sanity spot checks, especially when you are using methods that automatically detect the format. Give special attention to the _timezone_ in which your data is saved and compare it to the documentation of the standard.
 
 ---
 # Formatting Timestamps (4)
 
-Be aware of how to interpret your timestamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 04:24:32 in _our time_, we have no idea about the time
+Be aware of how to interpret your time stamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 04:24:32 in _our time_, we have no idea about the time
 at the location of the user. She might of made this comment at night or in the morning, depending on where she's from.
 
 ```{r, echo = TRUE}
@@ -296,26 +296,26 @@ Selection$publishedAt[1]
 ---
 # Extracting Information
 
-After having formatted all our selected columns, we usually also want to create some TextEmoRep ones with information
-that is not directly available in the raw data. Consider for example our these comments:
+After having formatted all our selected columns, we usually also want to create some new columns with information
+that is not directly available in the raw data. Consider for example these comments:
 
 ```{r, echo = TRUE}
 # Example comments with extractable information
-Selection$textOriginal[39]
-Selection$textOriginal[495]
+Selection$textOriginal[235]
+Selection$textOriginal[34073]
 ```
 
-There are two issues exemplefied by these comments:
+There are two issues exemplified by these comments:
 
 1) Comments contain emoji and hyperlinks that might distort our text analysis later
 
-2) These are features that we'd like to have in a seperate column for our analysis
+2) These are features that we'd like to have in a separate column for our analysis
 
 ---
 # Extracting Hyperlinks (1)
 
 We will start with deleting hyperlinks from our text and saving them in an additional column. We will use the
-textmining package `qdapRegex` for this, that has predefined routines for handling large textvectors and regular
+text mining package `qdapRegex` for this, that has predefined routines for handling large text vectors and regular
 expressions. You can learn more about regular expressions [here](https://en.wikipedia.org/wiki/Regular_expression).
 
 ```{r, message=F, echo = TRUE}
@@ -334,9 +334,9 @@ We get back a list where each element corresponds to one row in the Selection da
 links that were contained in the textOriginal column. At the same time, the link was removed from the Selection dataframe.
 
 ```{r, echo = TRUE}
-LinkDel[495]
+LinkDel[34073]
 
-Links[495]
+Links[34073]
 ```
 
 ---
@@ -357,7 +357,7 @@ removing the emoji and come up with our own method for extracting them.
 ---
 # Extracting Emoji (2)
 
-First we want to replace the emoji with a textual description, so that we can treat it just like any other token in text mining. This is no trivial task, as we have to go through each comment and replace each emoji with it's respective textual description. Unfortuntely, we did not find a working, easy to use, out of the box solution for this. But we can always make our own!
+First we want to replace the emoji with a textual description, so that we can treat it just like any other token in text mining. This is no trivial task, as we have to go through each comment and replace each emoji with it's respective textual description. Unfortunately, we did not find a working, easy to use, out of the box solution for this. But we can always make our own!
 
 Essentially, we want to replace this:
 
@@ -385,7 +385,7 @@ EmojiList[1:3,c(1,3,4)]
 ---
 # Extracting Emoji (4)
 
-Next, we need to paste the names of the Emoji together while capitalizing every words first letter for better readibility
+Next, we need to paste the names of the emoji together while capitalizing every words first letter for better readability
 
 ```{r, echo = TRUE}
 # Defining a function for capitalizing and pasting names together
@@ -428,7 +428,7 @@ Next, we need to order our dictionary from longest to shortest, so that we can p
 EmojiList <- EmojiList[rev(order(nchar(jis$emoji))),]
 head(EmojiList[,c(1,3,4)],5)
 ```
-Note that what we are ordering by is the `emoji` column, not the `text` or `runes` columns
+Note that what we are ordering by the `emoji` column, not the `text` or `runes` columns
 
 ---
 # Extracting Emoji (7)
@@ -461,7 +461,8 @@ for (i in 1:dim(EmojiList)[1]) {
 As output, we get a large character vector with replaced emoji
 
 ```{r, echo = TRUE}
-TextEmoRep[39]
+Selection$textOriginal[235]
+TextEmoRep[235]
 ```
 
 ---
@@ -500,21 +501,21 @@ We can apply the function to get one vector containing only the emoji as textual
 ```{r, echo = TRUE}
 Emoji <- sapply(TextEmoRep,ExtractEmoji)
 names(Emoji) <- NULL
-LinkDel[39]
-Emoji[39]
+LinkDel[235]
+Emoji[235]
 ```
 
 ---
 # Removing Emoji
 
-In addition, we remove the emoji from our `LinkDel` variable to have one _clean_ column that we can use for textmining later. This column will not contain hyperlinks or emoji.
+In addition, we remove the emoji from our `LinkDel` variable to have one _clean_ column that we can use for text mining later. This column will not contain hyperlinks or emoji.
 
 ```{r, echo = TRUE}
 # We take the LinkDel column and also delete the emoji from it
 library(emo)
-LinkDel[39]
+LinkDel[235]
 TextEmoDel <- ji_replace_all(LinkDel,"")
-TextEmoDel[39]
+TextEmoDel[235]
 ```
 
 ---
@@ -535,16 +536,16 @@ We want to integrate them in our dataframe
 ---
 # Linking everything back together
 
-We can now recombine our dataframe with the additional columns we created to have the perfect starting point for our analysis! However, because we sometimes have more than two links or two emoji per comment, we need to use the `I()` function so we can put them in the dataframe `as is`. Later, we will have to unlist these columns rowwise if we want to use them. 
+We can now recombine our dataframe with the additional columns we created to have the perfect starting point for our analysis! However, because we sometimes have more than two links or two emoji per comment, we need to use the `I()` function so we can put them in the dataframe `as is`. Later, we will have to unlist these columns row wise if we want to use them. 
 
 ```{r, echo = TRUE}
 df <- cbind.data.frame(Selection$authorDisplayName,
                        Selection$textOriginal,
                        TextEmoRep,
                        TextEmoDel,
-                       I(Emoji),
+                       Emoji = I(Emoji),
                        Selection$likeCount,
-                       I(Links),
+                       Links = I(Links),
                        Selection$publishedAt,
                        Selection$updatedAt,
                        Selection$parentId,
@@ -571,7 +572,7 @@ names(df) <- c("Author",
                "ParentId",
                "CommentID")
 
-saveRDS(df, file = "../../data/ParsedComments.rds")
+saveRDS(df, file = "../../data/ParsedEmojiComments.rds")
 
 ```
 
