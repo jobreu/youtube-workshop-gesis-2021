@@ -114,7 +114,7 @@ to your local machine
   - There is no guarantee that even pages that look the same have the same underlying HTML structure
   - You have to manually check the website and your data to make sure that you're getting what you want
   - If the website changes anything in their styling, your scripts won't work anymore
-  - [Legalality](https://en.wikipedia.org/wiki/Web_scraping#Legal_issues) depends on country
+  - [Legality](https://en.wikipedia.org/wiki/Web_scraping#Legal_issues) depends on country
 
 ---
 class: center, middle

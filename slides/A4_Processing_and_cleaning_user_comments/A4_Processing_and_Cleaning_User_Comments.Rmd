@@ -286,7 +286,7 @@ sapply(list(Selection$publishedAt,Selection$updatedAt),class)
 ---
 # Formatting Timestamps (4)
 
-Be aware of how to interpret your time stamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 04:24:32 in _our time_, we have no idea about the time
+Be aware of how to interpret your time stamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 21:55:19 in _our time_, we have no idea about the time
 at the location of the user. She might of made this comment at night or in the morning, depending on where she's from.
 
 ```{r, echo = TRUE}
