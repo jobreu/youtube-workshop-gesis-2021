@@ -40,7 +40,7 @@ is loaded from the database but not the whole website is reloaded. This is done 
 if ("rvest" %in% installed.packages() != TRUE) {
   install.packages("rvest")};library(rvest)
 
-# defining website and Xpath from inspect function in browser
+# defining website and XPath from inspect function in browser
 page <- "https://www.youtube.com/watch?v=1aheRpmurAo&"
 Xp <- "/html/body/div[2]/div[4]/div/div[5]
 /div[2]/div[2]/div/div[2]/meta[2]"
