@@ -129,7 +129,7 @@ Check the `textOriginal` column in your Selection dataframe. There are still hyp
 ```
 
 ```{block, opts.label = "clues"}
-The `qdabRegex` package has many pre-built functions for detecting, removing, and replacing specific character strings. You can, for example, use the `rm_url()` function to extract and replace hyperlinks. As a reminder: You can check the documentation for this function with `?rm_url()`.
+The `qdapRegex` package has many pre-built functions for detecting, removing, and replacing specific character strings. You can, for example, use the `rm_url()` function to extract and replace hyperlinks. As a reminder: You can check the documentation for this function with `?rm_url()`.
 
 ```
 ```{r, solution = TRUE}
