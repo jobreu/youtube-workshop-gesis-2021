@@ -1,12 +1,11 @@
 ---
-title: 'The _YouTube_ API'
-author: 'Julian Kohne'
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: 'Exercises The _YouTube_ API - Solutions'
+# title: 'Exercises The _YouTube_ API'
+author: 'Julian Kohne, Johannes Breuer, M. Rohangis Mohseni'
+date: 'Automatic sampling and analysis of YouTube data, February 24-25, 2021'
 output:
   unilur::tutorial_html_solution: default
-  unilur::tutorial_pdf_solution: default
-  unilur::tutorial_pdf: default
-  unilur::tutorial_html: default
+  # unilur::tutorial_html: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -25,7 +24,7 @@ klippy::klippy()
 
 
 ```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}
-Set up your API Access in the Google developer console and make sure that it's working. If you already did this at home, you can skip this step. If not, you should do it now because we will need API access for the next sections.
+If you have not done so before, set up your _YouTube_ API Access in the _Google Developer Console_ and make sure that it's working. If you already did this before, you can skip this step. If not, you should do it now because we will need API access for the next sections.
 ```
 
 ```{block, opts.label = "clues"}
@@ -37,7 +36,7 @@ Go to the _YouTube_ API console and check the amount of requests you already mad
 ```
 
 ```{block, opts.label = "clues"}
-You can do this by going to the [Developer Console](www.console.developers.google.com) and logging in with the _Google_ account you made for the workshop. On the top right, next to the "GoogleAPIs" logo, you can make sure that you have selected the right project. If you click on the "Dashboard" panel, you can see the traffic your app has generated. If you click on the name of the App, you get a more detailed panel with Quotas and Metrics.
+You can do this by going to the [Developer Console](www.console.developers.google.com) and logging in with the _Google_ account you used for creating the app for your API access. On the top right, next to the "GoogleAPIs" logo, you can make sure that you have selected the right project. If you click on the "Dashboard" panel, you can see the traffic your app has generated. If you click on the name of the app, you get a more detailed panel with Quotas and Metrics.
 ```
 ```{block, solution = TRUE}
 ![](./images/APIRequests.png)
@@ -56,7 +55,7 @@ Go to the _YouTube_ quota calulator and calculate the resources needed for the f
 ```
 
 ```{block, opts.label = "clues"}
-You can find the quota calculator [here](https://developers.google.com/youtube/v3/determine_quota_cost) and look for the right resource and method. The quota cost of **one** such call is displayed on the right side.
+You can find the quota calculator [here](https://developers.google.com/youtube/v3/determine_quota_cost) and need to look for the right resource and method. The quota cost of **one** such call is displayed on the right side.
 ```
 ```{block, solution = TRUE}
 

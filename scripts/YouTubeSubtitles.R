@@ -2,13 +2,16 @@ install.packages("youtubecaption") # Easier way for getting captions; needs Anac
 install.packages("devtools") # for installation from GitHub
 devtools::install_github("soodoku/tuber") # YouTube data
 devtools::install_github("fkeck/subtools") # Subtitle processing
-install.packages("stm") # Functions for structural topic models
+install.packages("stm") # Functions for structural topic models (used here for text processing)
 
 library(youtubecaption)
 library(devtools)
 library(tuber)
 library(subtools)
 library(stm)
+
+# DISCLAIMER: Due to a recent change in the YouTube API, the get_captions function from the tuber package only seems to work for videos created with the account that the app used for API access was created with
+# If you want to collect subtitles for videos that you did not create yourself, you should use the youtubecaption package (see below)
 
 appID <- "" # Insert your own app Id here (OAuth 2.0 Client ID created for your project via the Google Developers platform)
 appSecret <- "" # insert your own app Secret here (Client key created for your project via the Google Developers platform)

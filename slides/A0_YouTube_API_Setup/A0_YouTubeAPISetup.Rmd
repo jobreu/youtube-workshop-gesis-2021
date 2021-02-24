@@ -2,8 +2,8 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Setting Up Access to the YouTube API"
 author: "Julian Kohne<br />Johannes Breuer<br />M. Rohangis Mohseni"
-date: "2020-02-10"
-location: "GESIS, Cologne, Germany"
+date: "2021-02-24"
+location: "GESIS, online"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -58,7 +58,7 @@ xaringanExtra::use_extra_styles(hover_code_line = TRUE,
  
 To effectively work with *YouTube* data, we need access to its Application Programming Interface (API). As this process, unfortunately, can be a bit tedious, we prepared this preliminary tutorial so you don't have to spend time setting up your API access during the workshop. Please follow this tutorial and check if the setup works before the workshop. If your setup does not work, feel free to contact us before the workshop (the sooner the better) and we'll try to assist you in setting up access to the *YouTube* API. If, for some reason, setting up access to the API does not work for you and we don't find a solution or if you cannot access the API during the workshop, we will have some data prepared that you can then work with in the workshop.
 
-Contact: julian-kohne@gesis.org
+Contact: [julian.kohne@gesis.org](mailto:julian.kohne@gesis.org)
   
 [HINT](https://en.wikipedia.org/wiki/YouTube): Pink texts in the slides are hyperlinks that you can simply click on
 
@@ -71,7 +71,7 @@ Contact: julian-kohne@gesis.org
 - You can create a new account [here](https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=googlemail&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp)
 
 - Next, you need to:
-  - Sign up for the *Google developer console*
+  - Sign up for the *Google Developer Console*
   - Create a new project
   - Activate the *YouTube Data API*
   - Create authentication credentials
@@ -89,7 +89,7 @@ We will explain these steps in detail on the following slides.
 ---
 # Accepting the Terms of Service
 
-- You need to accept the Google Developer ToS, deselect the email updates and click "Agree and continue"
+- You need to accept the Google Developer ToS, can deselect the email updates, and click "Agree and continue"
 
 ![plot](Images/3.jpg)
 ---
@@ -101,13 +101,13 @@ We will explain these steps in detail on the following slides.
 ---
 # Creating a Project
 
-- Enter a project name and click on "create", you don't need to specify an organization
+- Enter a project name and click on "create"; you don't need to specify an organization
 
 ![plot](Images/5.png)
 ---
 # Enabling YouTube Data API v3
 
-- On the next screen, click on "Enable APIs and services" in the top left
+- On the next screen, click on "Enable APIs and Services" in the top left
 
 ![plot](Images/6.png)
 ---
@@ -154,7 +154,7 @@ and click on "What credentials do I need?" on the bottom of the screen
 ---
 # Configure Scopes
 
-- On the next screen, enter an arbitrary app name and enter your gmail address twice as "User support Email" and "Developer Contact Information". you can leave the other fields blank.
+- On the next screen, enter an arbitrary app name and enter your Gmail address twice as "User support Email" and "Developer Contact Information". You can leave the other fields blank.
 
 ![plot](Images/13.png)
 
@@ -169,14 +169,14 @@ pages.
 ---
 # Configure scopes
 
-- Click on "safe and continue" and the bottom left of the page
+- Click on "Save and Continue" and the bottom left of the page
 
 ![plot](Images/15.png)
 
 ---
 # Add yourself as a user
 
-- On the subsequent page, click on "Add users", enter your gmail address and confirm by clicking "add".
+- On the subsequent page, click on "Add users", enter your Gmail address and confirm by clicking "add".
 
 ![plot](Images/16.png)
 ---
@@ -206,14 +206,14 @@ pages.
 ---
 # Setting up Credentials (2)
 
-- Congratulations! You now have your own Client ID and secret! Next, copy both as a string into an R-script.
+- Congratulations! You now have your own Client ID and secret! Next, copy both as a string into the `R` code shown on the following slide (and then run that code) to test your setup.
 
 ![plot](Images/21.png)
 
 ---
 # Testing Access
 
-- You can safely try whether your *YouTube API access* works as intended by running the 
+- You can safely try whether your *YouTube* API access works as intended by running the 
   following commands in `R`:
 
 ```{r eval = FALSE}
@@ -234,13 +234,13 @@ yt_oauth(ID,secret)
 
 # You will be asked in the R-console to
 # save an access token: Select no by entering 2
-# You will be send to your browser to log in
+# You will be sent to your browser to log in
 
 ```
 ---
 # Grant yourself access
 
-- In the webbrowser window that was opened from your R session, select your new gmail account
+- In the browser window that was opened from your R session, select your new Gmail account
 
 ![plot](Images/22.png)
 ---
@@ -258,7 +258,7 @@ yt_oauth(ID,secret)
 ---
 # Grant yourself access
 
-- confirm your choices once more by clicking on 'allow'
+- confirm your choices once more by clicking on "Allow"
 
 ![plot](Images/25.png)
 
@@ -266,14 +266,14 @@ yt_oauth(ID,secret)
 ---
 # Grant yourself access
 
-- Your browser should now display the following message. You can close his window now and return to R
+- Your browser should now display the following message. You can close his window now and return to `R`.
 
 ![plot](Images/26.png)
 
 ---
 # Test API call
 
-- To easily check if everything worked, let's try to collect some simple data about a video.
+- To easily check if everything worked, let's try to collect some simple data for a video.
 
 ```{r eval = FALSE}
 

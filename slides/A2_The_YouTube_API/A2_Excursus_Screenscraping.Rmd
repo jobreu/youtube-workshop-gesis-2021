@@ -2,8 +2,8 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Excursus Screenscraping"
 author: "Julian Kohne<br />Johannes Breuer<br />M. Rohangis Mohseni"
-date: "2020-02-10"
-location: "GESIS, Cologne, Germany"
+date: "2021-02-24"
+location: "GESIS, online"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -14,29 +14,44 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r, echo=FALSE,results='hide'}
-library(emo)
+```{r setup, include = F}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
+packages("hadley/emo",
+         "gadenbuie/xaringanExtra",
+         "knitr",
+         "rmarkdown",
+         prompt = F)
+
+options(htmltools.dir.version = FALSE,
+        htmltools.preserve.raw = FALSE)
+
+#opts_chunk$set(eval = F)
+
+xaringanExtra::use_xaringan_extra(c("tile_view", "clipboard"))
+xaringanExtra::use_extra_styles(hover_code_line = TRUE,
+                                mute_unhighlighted_code = FALSE)
 ```
 
 
 # Screenscraping
 
-There are basically two ways to do screenscraping R
-  - Rvest: Sufficient for scraping **static** websites
-  - RSelenium: Can also deal with **dynamic** websites
+There are two packages for screenscraping in `R`
+  - [`rvest`](https://github.com/tidyverse/rvest): Sufficient for scraping **static** websites
+  - [`RSelenium`](https://github.com/ropensci/RSelenium): Can also deal with **dynamic** websites
 
 Dynamic websites are pages that _dynamically_ load content from the database without
 changing the URL
 
 Example: When you click on "show more" on the comment replies of a _YouTube_ video, new content
-is loaded from the database but not the whole website is reloaded. This is done with [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming) )
+is loaded from the database but not the whole website is reloaded (this is done with [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)).
 
 ---
-# Screenscraping with Rvest
+# Screenscraping with `rvest`
 
 ```{r collapse = TRUE, results='hide'}
-# installing and attaching package
+# installing and loading the package
 if ("rvest" %in% installed.packages() != TRUE) {
   install.packages("rvest")};library(rvest)
 
@@ -55,36 +70,34 @@ Description <- html_nodes(Website, xpath = Xp)
 html_attr(Description, name = "content")
 ```
 "John Oliver discusses the census, why it matters, and the consequences of an undercount.
-Connect with Last Week Tonight online.Subscribe to the Last Week ..."
+Connect with Last Week Tonight online. Subscribe to the Last Week ..."
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 ```{r}
-# We first have to configure docker and open a docker container:
-# https://callumgwtaylor.github.io/blog/2018/02/01/
-# using-rselenium-and-docker-to-webscrape-in-r-using-the
-# -who-snake-database/
+# We first have to configure Docker and open a Docker container:
+# https://callumgwtaylor.github.io/blog/2018/02/01/using-rselenium-and-docker-to-webscrape-in-r-using-the-who-snake-database/
 
-# installing packages
+# installing package
 if ("RSelenium" %in% installed.packages() != TRUE) {
   install.packages("RSelenium")
 }
 
-# attaching package
+# loading package
 library(RSelenium)
 
-# opening docker container from system
+# opening Docker container from system
 check <- system2("docker", args = "ps", stdout = TRUE)
 
 ```
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 ```{r}
 
-# opening new container (and killing old ones)
+# opening new Docker container (and killing old ones)
 if (length(check) == 1) {
   
   #start new container
@@ -111,21 +124,21 @@ if (length(check) == 1) {
 
 ```
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 ```{r}
-# Assigning google chrome docker session
+# Assigning Google Chrome Docker session
 remDr <- RSelenium::remoteDriver(remoteServerAddr = "localhost",
                                  port = 4445L,
                                  browserName = "chrome")
 
-# Waiting for 5 seconds to finish initialization of docker session
+# Waiting for 5 seconds to finish initialization of Docker session
 Sys.sleep(5)
 
 ```
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 - We can now navigate to a website and print a screenshot
 
@@ -140,14 +153,13 @@ remDr$navigate("https://www.youtube.com/watch?v=1aheRpmurAo&")
 # Wait for 2 seconds for the website to load
 Sys.sleep(2)
 
-# Scrolling down a bit
+# Scroll down a bit
 webElem <- remDr$findElement("css", "body")
 for (i in 20){
   webElem$sendKeysToElement(list(key = "down_arrow"))
 }
 
-
-# take screenshot
+# Take screenshot
 remDr$screenshot(file = 'Images/RSeleniumScreenshot.png')
 ```
 
@@ -157,13 +169,13 @@ remDr$screenshot(file = 'Images/RSeleniumScreenshot.png')
 ![plot](Images/RSeleniumScreenshot.png)
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
  - We can then navigate to the "show more" button, and click it
 
 ```{r, results = 'hide'}
 
-# Xpath of "show more" button (using inspect element in Browser)
+# Xpath of "show more" button (using inspect element in browser)
 xp <- '//*[@id="more"]/yt-formatted-string'
 
 # navigating to button element
@@ -172,14 +184,13 @@ element <- remDr$findElement(using = 'xpath', xp)
 # click on button
 element$clickElement()
 
-# Scrolling down a bit
+# scrolling down a bit
 webElem <- remDr$findElement("css", "body")
 for (i in 20){
   webElem$sendKeysToElement(list(key = "down_arrow"))
 }
 
-# take screenshot (we can see that the description box
-# is now expanded)
+# take screenshot (we can see that the description box is now expanded)
 remDr$screenshot(file = 'Images/RSeleniumScreenshot2.png')
 
 ```
@@ -189,13 +200,13 @@ remDr$screenshot(file = 'Images/RSeleniumScreenshot2.png')
 ![plot](Images/RSeleniumScreenshot2.png)
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
-- We can then extract the contents of the expanded description box
+- We can also extract the contents of the expanded description box
 
 ```{r, results = 'hide'}
 
-#navigating to description element
+# navigate to description element
 xp2 <- '//*[@id="description"]/yt-formatted-string'
 element2 <- remDr$findElement(using = 'xpath', xp2)
 

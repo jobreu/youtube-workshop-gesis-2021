@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Julian Kohne Johannes Breuer M. Rohangis Mohseni" />
     <meta name="date" content="2021-02-24" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
@@ -56,13 +57,13 @@ class: center, middle
 - Preprocessing refers to all steps that need to be taken to make the data suitable for the actual analysis
 
 - For webscraping data, this is often more tedious and time-consuming than for survey data because:
-  - the data is not designed with your analysis in mind
-  - the data is typically less structured
-  - the data is typically more complex
-  - the data is typically more heterogenous
-  - the data is typically larger
+  - the data are not designed with your analysis in mind
+  - the data are typically less structured
+  - the data are typically more complex
+  - the data are typically more heterogenous
+  - the data are typically larger
   
-- In addition, it's often necessary to work on Servers instead of regular PCs
+- In addition, with large amounts of data it is often necessary to work on servers or clusters instead of regular desktop or laptop computers
 
 - Even then, restructuring or transforming data can take days, so mistakes hurt more
 
@@ -86,13 +87,13 @@ class: center, middle
 ---
 # Preprocessing _YouTube_ comments
 
-- The `tuber` package already returns an R dataframe instead of a JSON
+- The `tuber` package returns an `R` dataframe instead of a JSON
 
-- We can already select which data we need by using the API through `tuber`
+- We can select which data we need by using the API through `tuber`
 
-- For single videos, the data is small enough to be processed on a regular PC
+- For single videos, the data are small enough to be processed on a regular desktop/laptop computer
 
-- However, this doesn't mean that the data is already usable for all intents and purposes
+- However, this doesn't mean that the data are already usable for all intents and purposes
 
 - We still need to:
   - select
@@ -105,11 +106,11 @@ the information that is relevant to us
 ---
 # Preprocessing _YouTube_ Comments
 
-Loading the unprocessed comments into R
+Loading the unprocessed comments into `R`
 
 
 ```r
-# loading raw data (This is the BackUp file)
+# loading raw data
 comments &lt;- readRDS("../../data/RawEmojiComments.rds")
 ```
 
@@ -138,7 +139,7 @@ Luckily, the _YouTube_ API is very [well documented](https://developers.google.c
 ---
 # Understanding Your Data (2)
 
-This information is valuable for understanding missing data
+This information is valuable for understanding what type of comments the dataframe contains
 
 
 ```r
@@ -151,7 +152,7 @@ table(is.na(comments$parentId))
 ## 15178 22474
 ```
 
-A quick look into the documentation reveals:
+A quick look at the documentation reveals:
 
 **parentID**: _The unique ID of the parent comment. This property is only set if the comment was submitted as a reply to another comment._
 
@@ -178,7 +179,7 @@ class(comments$publishedAt)
 ## [1] "character"
 ```
 
-A quick look into the documentation reveals:
+A quick look at the documentation reveals:
 
 **publishedAt**: _The date and time when the comment was originally published. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format._
 
@@ -212,7 +213,7 @@ strwrap(comments$textDisplay[195],79)
 ---
 # Selecting What You (Don't) need
 
-Now we can decide on what we need for further analysis
+Now we can decide on what we need for our analyses
 
 
 ```r
@@ -237,7 +238,7 @@ colnames(Selection)
 ---
 # Formatting your Data
 
-By default, the data you get out of `tuber` is most likely not in the right format
+By default, the data you get out of `tuber` is most likely not in the right format for your analyses
 
 
 ```r
@@ -269,18 +270,18 @@ Sys.time() - Selection$publishedAt[1]
 ```
 
 ```
-## Error in unclass(e1) - e2: non-numeric argument to binary operator
+## Error in unclass(e1) - e2: nicht-numerisches Argument für binären Operator
 ```
 
 ---
 # Formatting `likeCount`
 
-We want the `likeCount` to be a numeric variable and the time stamps to be datetime objects
+We want the `likeCount` to be a numeric variable and the timestamps to be datetime objects
 
 
 ```r
 # Transforming likeCount to numeric
-# (carefull, this is overwriting the column)
+# (NB: this overwrites the original column)
 Selection$likeCount &lt;- as.numeric(Selection$likeCount)
 
 # testing
@@ -297,7 +298,7 @@ We can now work with the number of likes as a numeric variable
 ---
 # Formatting your Timestamps (1)
 
-Time stamps are extremely complex objects due to:
+Timestamps are extremely complex objects due to:
  - Different calendars
  - Different formattings
  - Different origins
@@ -308,14 +309,14 @@ Time stamps are extremely complex objects due to:
  - Leap years
  - [etc.](https://www.youtube.com/watch?v=-5wpm-gesOY)
  
-For these reasons, **never** try to code your own time stamp translations from scratch. Fortunately, R has several build in methods to deal with this madness. The most basic one as the `as.POSIXct()` function, the most convenient one is the `anytime()` function from the `anytime` package.
+For these reasons, **never** try to code your own time stamp translations from scratch. Fortunately, `R` has several build in methods for dealing with this madness. The most basic one is the `as.POSIXct()` function, the most convenient one is the `anytime()` function from the `anytime` package (another powerful option for dealing with times and dates in `R` is the [`lubridate` package](https://lubridate.tidyverse.org/) from the `Tidyverse`).
 
 ---
 # Formatting Timestamps (2)
 
 
 ```r
-# transforming time stamps to datetime objects
+# transforming timestamps to datetime objects
 Selection$publishedAt[1]
 ```
 
@@ -341,7 +342,7 @@ Sys.time() - testtime
 ```
 
 ```
-## Time difference of 4.941676 days
+## Time difference of 5.059355 days
 ```
 
 This internal representation of time objects will be extremely important for plotting trends over time
@@ -350,7 +351,7 @@ and calculating time differences
 ---
 # Formatting Timestamps (3)
 
-A more convenient way to transform datetimes is the `anytime` package. Basically, it automatically tries
+A more convenient way to transform datetimes is the [`anytime` package](https://github.com/eddelbuettel/anytime). It automatically tries
 to guess the format from the character string, so you don't have to. This is especially handy for vectors 
 of datetimes in multiple different formats.
 
@@ -371,13 +372,12 @@ sapply(list(Selection$publishedAt,Selection$updatedAt),class)
 ## [2,] "POSIXt"  "POSIXt"
 ```
 
-**Word of Advice**: For datetime conversions, always do some sanity spot checks, especially when you are using methods that automatically detect the format. Give special attention to the _timezone_ in which your data is saved and compare it to the documentation of the standard.
+**Word of Advice**: For datetime conversions, always do some sanity checks, especially if you are using methods that automatically detect the format. Pay special attention to the _timezone_ in which your data are saved and compare it to the documentation of the standard.
 
 ---
 # Formatting Timestamps (4)
 
-Be aware of how to interpret your time stamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 21:55:19 in _our time_, we have no idea about the time
-at the location of the user. She might of made this comment at night or in the morning, depending on where she's from.
+Be aware of how to interpret your timestamps. Note that the date was interpreted as UTC but converted to our local CET timezone which is 1 hour ahead of UTC. This comment was made at 21:55:19 in _our time_, we have no idea about the time at the location of the user.
 
 
 ```r
@@ -391,8 +391,7 @@ Selection$publishedAt[1]
 ---
 # Extracting Information
 
-After having formatted all our selected columns, we usually also want to create some new columns with information
-that is not directly available in the raw data. Consider for example these comments:
+After having formatted all our selected columns, we usually also want to create some new columns with information that is not directly available in the raw data. For example, consider these comments:
 
 
 ```r
@@ -401,7 +400,7 @@ Selection$textOriginal[235]
 ```
 
 ```
-## [1] "Amazing movie 🤩"
+## [1] "Amazing movie &lt;U+0001F929&gt;"
 ```
 
 ```r
@@ -423,8 +422,7 @@ There are two issues exemplified by these comments:
 # Extracting Hyperlinks (1)
 
 We will start with deleting hyperlinks from our text and saving them in an additional column. We will use the
-text mining package `qdapRegex` for this, that has predefined routines for handling large text vectors and regular
-expressions. You can learn more about regular expressions [here](https://en.wikipedia.org/wiki/Regular_expression).
+text mining package [`qdapRegex`](https://github.com/trinker/qdapRegex) for this as it has predefined routines for handling large text vectors and [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).
 
 
 ```r
@@ -474,7 +472,7 @@ Links[34073]
 ---
 # Extracting Emoji (1)
 
-The `qdapRegex` package has a lot of other different predefined functions to extract or remove certain kinds of strings:
+The `qdapRegex` package has a lot of other different predefined functions for extracting or removing certain kinds of strings:
   - `rm_citation()`
   - `rm_date()`
   - `rm_phone()`
@@ -489,7 +487,7 @@ removing the emoji and come up with our own method for extracting them.
 ---
 # Extracting Emoji (2)
 
-First we want to replace the emoji with a textual description, so that we can treat it just like any other token in text mining. This is no trivial task, as we have to go through each comment and replace each emoji with it's respective textual description. Unfortunately, we did not find a working, easy to use, out of the box solution for this. But we can always make our own!
+First we want to replace the emoji with a textual description, so that we can treat it just like any other token in text mining. This is no trivial task, as we have to go through each comment and replace each emoji with its respective textual description. Unfortunately, we did not find a working, easy to use, out of the box solution for this. But we can always make our own!
 
 Essentially, we want to replace this:
 
@@ -499,7 +497,7 @@ emo::ji("monkey")
 ```
 
 ```
-## 🐒
+## &lt;U+0001F412&gt;
 ```
 
 with this
@@ -516,7 +514,7 @@ with this
 ---
 # Extracting Emoji (3)
 
-First of all, we need a dataframe that contains the emoji as they are internally represented by R (this can be quite the [hassle](https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows). Luckily, this is contained in the `emo` package
+First of all, we need a dataframe that contains the emoji as they are internally represented by `R` (this can be quite the [hassle](https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows)). Luckily, this is contained in the [`emo` package](https://github.com/hadley/emo).
 
 
 ```r
@@ -527,17 +525,17 @@ EmojiList[1:3,c(1,3,4)]
 
 ```
 ## # A tibble: 3 x 3
-##   runes emoji name                          
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                         
-## 1 1F600 😀    grinning face                 
-## 2 1F601 😁    beaming face with smiling eyes
-## 3 1F602 😂    face with tears of joy
+##   runes emoji        name                          
+##   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;                         
+## 1 1F600 "\U0001f600" grinning face                 
+## 2 1F601 "\U0001f601" beaming face with smiling eyes
+## 3 1F602 "\U0001f602" face with tears of joy
 ```
 
 ---
 # Extracting Emoji (4)
 
-Next, we need to paste the names of the emoji together while capitalizing every words first letter for better readability
+Next, we need to paste the names of the emoji together while capitalizing the first letter of every word for better readability
 
 
 ```r
@@ -573,18 +571,18 @@ EmojiList[1:3,c(1,3,4)]
 
 ```
 ## # A tibble: 3 x 3
-##   runes emoji name                      
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                     
-## 1 1F600 😀    GrinningFace              
-## 2 1F601 😁    BeamingFaceWithSmilingEyes
-## 3 1F602 😂    FaceWithTearsOfJoy
+##   runes emoji        name                      
+##   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;                     
+## 1 1F600 "\U0001f600" GrinningFace              
+## 2 1F601 "\U0001f601" BeamingFaceWithSmilingEyes
+## 3 1F602 "\U0001f602" FaceWithTearsOfJoy
 ```
 
 
 ---
 # Extracting Emoji (6)
 
-Next, we need to order our dictionary from longest to shortest, so that we can prevent partial matching of shorter strings later
+After that, we need to order our dictionary from longest to shortest, so that we can prevent partial matching of shorter strings later
 
 
 ```r
@@ -594,20 +592,20 @@ head(EmojiList[,c(1,3,4)],5)
 
 ```
 ## # A tibble: 5 x 3
-##   runes                                      emoji name            
-##   &lt;chr&gt;                                      &lt;chr&gt; &lt;chr&gt;           
-## 1 1F469 200D 2764 FE0F 200D 1F48B 200D 1F469 👩‍❤️‍💋‍👩    Kiss:Woman,Woman
-## 2 1F468 200D 2764 FE0F 200D 1F48B 200D 1F468 👨‍❤️‍💋‍👨    Kiss:Man,Man    
-## 3 1F469 200D 2764 FE0F 200D 1F48B 200D 1F468 👩‍❤️‍💋‍👨    Kiss:Woman,Man  
-## 4 1F3F4 E0067 E0062 E0077 E006C E0073 E007F  🏴󠁧󠁢󠁷󠁬󠁳󠁿    Wales           
-## 5 1F3F4 E0067 E0062 E0073 E0063 E0074 E007F  🏴󠁧󠁢󠁳󠁣󠁴󠁿    Scotland
+##   runes                     emoji                                     name      
+##   &lt;chr&gt;                     &lt;chr&gt;                                     &lt;chr&gt;     
+## 1 1F469 200D 2764 FE0F 200~ "\U0001f469&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f469"         Kiss:Woma~
+## 2 1F468 200D 2764 FE0F 200~ "\U0001f468&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f468"         Kiss:Man,~
+## 3 1F469 200D 2764 FE0F 200~ "\U0001f469&lt;U+200D&gt;&lt;U+2764&gt;&lt;U+FE0F&gt;&lt;U+200D&gt;\U0001f48b&lt;U+200D&gt;\U0001f468"         Kiss:Woma~
+## 4 1F3F4 E0067 E0062 E0077 ~ "\U0001f3f4\U000e0067\U000e0062\U000e007~ Wales     
+## 5 1F3F4 E0067 E0062 E0073 ~ "\U0001f3f4\U000e0067\U000e0062\U000e007~ Scotland
 ```
 Note that what we are ordering by the `emoji` column, not the `text` or `runes` columns
 
 ---
 # Extracting Emoji (7)
 
-Next, we need to `loop` through all of our emoji and replace them one after the other in each comment (this may take a while)
+Now we can `loop` through all of our emoji and replace them one after the other in each comment (*note*: this may take a while)
 
 
 ```r
@@ -639,7 +637,7 @@ Selection$textOriginal[235]
 ```
 
 ```
-## [1] "Amazing movie 🤩"
+## [1] "Amazing movie &lt;U+0001F929&gt;"
 ```
 
 ```r
@@ -691,7 +689,7 @@ LinkDel[235]
 ```
 
 ```
-## [1] "Amazing movie 🤩"
+## [1] "Amazing movie &lt;U+0001F929&gt;"
 ```
 
 ```r
@@ -715,7 +713,7 @@ LinkDel[235]
 ```
 
 ```
-## [1] "Amazing movie 🤩"
+## [1] "Amazing movie &lt;U+0001F929&gt;"
 ```
 
 ```r
@@ -740,12 +738,12 @@ We now have different versions of our text column
 
 4) One with only emoji (`Emoji`)
 
-We want to integrate them in our dataframe
+We want to integrate all of them in our dataframe.
 
 ---
 # Linking everything back together
 
-We can now recombine our dataframe with the additional columns we created to have the perfect starting point for our analysis! However, because we sometimes have more than two links or two emoji per comment, we need to use the `I()` function so we can put them in the dataframe `as is`. Later, we will have to unlist these columns row wise if we want to use them. 
+We can now combine our dataframe with the additional columns we created to have the perfect starting point for our analysis! However, because we sometimes have more than two links or two emoji per comment, we need to use the `I()` function so we can put them in the dataframe `as is`. Later, we will have to unlist these columns rowwise if we want to use them. 
 
 
 ```r
@@ -765,7 +763,7 @@ df &lt;- cbind.data.frame(Selection$authorDisplayName,
 ---
 # Linking everything back together
 
-At last, we can give the columns appropriate names and save the dataframe for later use
+As a final step, we can give the columns appropriate names and save the dataframe for later use
 
 
 ```r

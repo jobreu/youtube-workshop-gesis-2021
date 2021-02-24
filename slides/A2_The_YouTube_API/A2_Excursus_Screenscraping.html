@@ -4,9 +4,17 @@
     <title>Automatic Sampling and Analysis of YouTube Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="Julian Kohne Johannes Breuer M. Rohangis Mohseni" />
-    <meta name="date" content="2020-02-10" />
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <meta name="date" content="2021-02-24" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="../workshop.css" type="text/css" />
   </head>
   <body>
@@ -16,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Automatic Sampling and Analysis of YouTube Data
 ## Excursus Screenscraping
 ### Julian Kohne<br />Johannes Breuer<br />M. Rohangis Mohseni
-### 2020-02-10
+### 2021-02-24
 
 ---
 
@@ -26,27 +34,26 @@ class: center, middle, inverse, title-slide
 
 # Screenscraping
 
-There are basically two ways to do screenscraping R
-  - Rvest: Sufficient for scraping **static** websites
-  - RSelenium: Can also deal with **dynamic** websites
+There are two packages for screenscraping in `R`
+  - [`rvest`](https://github.com/tidyverse/rvest): Sufficient for scraping **static** websites
+  - [`RSelenium`](https://github.com/ropensci/RSelenium): Can also deal with **dynamic** websites
 
 Dynamic websites are pages that _dynamically_ load content from the database without
 changing the URL
 
 Example: When you click on "show more" on the comment replies of a _YouTube_ video, new content
-is loaded from the database but not the whole website is reloaded. This is done with [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming) )
+is loaded from the database but not the whole website is reloaded (this is done with [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)).
 
 ---
-# Screenscraping with Rvest
+# Screenscraping with `rvest`
 
 
 ```r
-# installing and attaching package
+# installing and loading the package
 if ("rvest" %in% installed.packages() != TRUE) {
   install.packages("rvest")};library(rvest)
-## Loading required package: xml2
 
-# defining website and Xpath from inspect function in browser
+# defining website and XPath from inspect function in browser
 page &lt;- "https://www.youtube.com/watch?v=1aheRpmurAo&amp;"
 Xp &lt;- "/html/body/div[2]/div[4]/div/div[5]
 /div[2]/div[2]/div/div[2]/meta[2]"
@@ -61,36 +68,34 @@ Description &lt;- html_nodes(Website, xpath = Xp)
 html_attr(Description, name = "content")
 ```
 "John Oliver discusses the census, why it matters, and the consequences of an undercount.
-Connect with Last Week Tonight online.Subscribe to the Last Week ..."
+Connect with Last Week Tonight online. Subscribe to the Last Week ..."
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 
 ```r
-# We first have to configure docker and open a docker container:
-# https://callumgwtaylor.github.io/blog/2018/02/01/
-# using-rselenium-and-docker-to-webscrape-in-r-using-the
-# -who-snake-database/
+# We first have to configure Docker and open a Docker container:
+# https://callumgwtaylor.github.io/blog/2018/02/01/using-rselenium-and-docker-to-webscrape-in-r-using-the-who-snake-database/
 
-# installing packages
+# installing package
 if ("RSelenium" %in% installed.packages() != TRUE) {
   install.packages("RSelenium")
 }
 
-# attaching package
+# loading package
 library(RSelenium)
 
-# opening docker container from system
+# opening Docker container from system
 check &lt;- system2("docker", args = "ps", stdout = TRUE)
 ```
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 
 ```r
-# opening new container (and killing old ones)
+# opening new Docker container (and killing old ones)
 if (length(check) == 1) {
   
   #start new container
@@ -116,21 +121,21 @@ if (length(check) == 1) {
 }
 ```
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 
 ```r
-# Assigning google chrome docker session
+# Assigning Google Chrome Docker session
 remDr &lt;- RSelenium::remoteDriver(remoteServerAddr = "localhost",
                                  port = 4445L,
                                  browserName = "chrome")
 
-# Waiting for 5 seconds to finish initialization of docker session
+# Waiting for 5 seconds to finish initialization of Docker session
 Sys.sleep(5)
 ```
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
 - We can now navigate to a website and print a screenshot
 
@@ -145,14 +150,13 @@ remDr$navigate("https://www.youtube.com/watch?v=1aheRpmurAo&amp;")
 # Wait for 2 seconds for the website to load
 Sys.sleep(2)
 
-# Scrolling down a bit
+# Scroll down a bit
 webElem &lt;- remDr$findElement("css", "body")
 for (i in 20){
   webElem$sendKeysToElement(list(key = "down_arrow"))
 }
 
-
-# take screenshot
+# Take screenshot
 remDr$screenshot(file = 'Images/RSeleniumScreenshot.png')
 ```
 
@@ -162,13 +166,13 @@ remDr$screenshot(file = 'Images/RSeleniumScreenshot.png')
 ![plot](Images/RSeleniumScreenshot.png)
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
  - We can then navigate to the "show more" button, and click it
 
 
 ```r
-# Xpath of "show more" button (using inspect element in Browser)
+# Xpath of "show more" button (using inspect element in browser)
 xp &lt;- '//*[@id="more"]/yt-formatted-string'
 
 # navigating to button element
@@ -177,14 +181,13 @@ element &lt;- remDr$findElement(using = 'xpath', xp)
 # click on button
 element$clickElement()
 
-# Scrolling down a bit
+# scrolling down a bit
 webElem &lt;- remDr$findElement("css", "body")
 for (i in 20){
   webElem$sendKeysToElement(list(key = "down_arrow"))
 }
 
-# take screenshot (we can see that the description box
-# is now expanded)
+# take screenshot (we can see that the description box is now expanded)
 remDr$screenshot(file = 'Images/RSeleniumScreenshot2.png')
 ```
 ---
@@ -193,13 +196,13 @@ remDr$screenshot(file = 'Images/RSeleniumScreenshot2.png')
 ![plot](Images/RSeleniumScreenshot2.png)
 
 ---
-# Screenscraping with RSelenium
+# Screenscraping with `RSelenium`
 
-- We can then extract the contents of the expanded description box
+- We can also extract the contents of the expanded description box
 
 
 ```r
-#navigating to description element
+# navigate to description element
 xp2 &lt;- '//*[@id="description"]/yt-formatted-string'
 element2 &lt;- remDr$findElement(using = 'xpath', xp2)
 
@@ -217,7 +220,7 @@ class: center, middle
 ## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2020/solutions/A2_Excursus_Screenscraping_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
@@ -262,6 +265,32 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {
@@ -279,17 +308,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
 <script>
 slideshow._releaseMath = function(el) {
